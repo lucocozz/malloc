@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 17:44:05 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/10/28 20:58:25 by lucocozz         ###   ########.fr       */
+/*   Updated: 2022/11/04 13:47:00 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,5 @@ int	main()
 	// char *mem = NULL;
 
 	// mem = malloc(sizeof(char) * 10);
-	printf("sizeof = %lu\n", sizeof(t_block_header));
 	return (0);
 }
