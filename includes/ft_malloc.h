@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 15:28:58 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/10/30 16:59:30 by lucocozz         ###   ########.fr       */
+/*   Updated: 2022/11/04 19:46:47 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 typedef struct s_heap {
 	struct s_heap	*prev;
 	struct s_heap	*next;
-	t_heap_group	group;
+	// t_heap_group	group;
 	size_t			total_size;
 	size_t			free_size;
 	size_t			block_count;

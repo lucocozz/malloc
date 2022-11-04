@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 17:44:05 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/11/04 13:47:00 by lucocozz         ###   ########.fr       */
+/*   Updated: 2022/11/04 19:43:32 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 
 int	main()
 {
-	// char *mem = NULL;
+	char *mem = NULL;
 
-	// mem = malloc(sizeof(char) * 10);
+	mem = malloc(sizeof(char) * 10);
+	printf("%p\n", mem);
 	return (0);
 }
