@@ -6,7 +6,7 @@
 #    By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/30 15:23:20 by lucocozz          #+#    #+#              #
-#    Updated: 2022/10/30 15:28:10 by lucocozz         ###   ########.fr        #
+#    Updated: 2022/11/16 16:50:56 by lucocozz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ RM = rm -f
 MKDIR = mkdir -p
 DEBUG = off
 
-CFLAGS = -MMD -Wall -Wextra -Werror
+CFLAGS = -MMD -Wall -Wextra -Werror -std=gnu99
 CXXFLAGS = $(INCLUDES_DIR:%=-I %)
 ifeq ($(DEBUG), on)
 	CXXFLAGS += -g3
@@ -48,6 +48,9 @@ vpath %.c	$(addprefix $(SRCS_DIR), /.)
 all:
 	$(foreach LIB, ${LIBS}, ${MAKE} -C lib${LIB} ;)
 	$(MAKE) $(NAME)
+
+scan:
+	scan-build-12 $(MAKE)
 
 $(NAME): $(OBJS) | $(LIBS:%=lib%.a)
 	$(CC) $(CXXFLAGS) $^ -o $(NAME) $(LDFLAGS)
