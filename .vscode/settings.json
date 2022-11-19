@@ -1,6 +1,7 @@
 {
 	"files.associations": {
 		".env": "plaintext",
-		"ft_malloc.h": "c"
+		"ft_malloc.h": "c",
+		"stdlib.h": "c"
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 15:28:58 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/11/17 19:08:11 by lucocozz         ###   ########.fr       */
+/*   Updated: 2022/11/19 17:29:54 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,33 +19,35 @@
 # include <sys/resource.h>
 # include <pthread.h>
 # include <stdbool.h>
+# include <sys/types.h>
 
-# define ALIGNMENT 16
+# define ALIGNMENT 8
 # define ALIGN(size) (((size) + (ALIGNMENT - 1)) & ~(ALIGNMENT - 1))
 
-# define BLOCK_SHIFT(start) ((void *)start + sizeof(t_block))
-
-													// if getpagesize() == 4096
-# define TINY_PAGE_SIZE (4 * getpagesize()) 		// 16384
-# define TINY_BLOCK_SIZE (TINY_PAGE_SIZE / 128) 	// 128
-# define SMALL_PAGE_SIZE (16 * getpagesize()) 		// 65536
-# define SMALL_BLOCK_SIZE (SMALL_PAGE_SIZE / 128) 	// 512
-// # define LARGE_PAGE_SIZE (64 * getpagesize()) 		// 262144
-// # define LARGE_BLOCK_SIZE (LARGE_PAGE_SIZE / 128) 	// 2048
+															// if getpagesize() == 4096
+# define TINY_PAGE_SIZE (size_t)(4 * getpagesize()) 		// 16384
+# define SMALL_PAGE_SIZE (size_t)(16 * getpagesize()) 		// 65536
 
 typedef struct s_block {
 	size_t			size;
 	bool			allocated;
+	struct s_block	*next;
+	struct s_page	*parent;
 }	t_block;
 
 typedef struct s_page {
 	size_t			size;
-	size_t			block_count;
-	size_t			freed_blocks;
+	size_t			used_size;
+	uint			block_count;
+	uint			freed_count;
 	t_block			*blocks;
 	struct s_page	*next;
-	struct s_page	*prev;
 }	t_page;
+
+typedef struct s_index {
+	t_block		*block;
+	t_page		*page;
+}	t_index;
 
 typedef struct s_binding {
 	size_t		count;
@@ -73,8 +75,11 @@ static t_heap g_heap = {
 	}
 };
 
+static pthread_mutex_t g_malloc_mutex = PTHREAD_MUTEX_INITIALIZER;
+
 void	free(void *ptr);
 void	*malloc(size_t size);
 void	*realloc(void *ptr, size_t size);
+void	show_alloc_mem(void);
 
 #endif

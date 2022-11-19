@@ -1,22 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   show_alloc_mem.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/28 17:44:05 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/11/19 18:02:56 by lucocozz         ###   ########.fr       */
+/*   Created: 2022/11/18 19:42:50 by lucocozz          #+#    #+#             */
+/*   Updated: 2022/11/18 19:43:32 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include "../includes/ft_malloc.h"
 
-int	main()
+void	show_alloc_mem(void)
 {
 
-	for (int i = 0; i < 10; i++)
-		malloc(sizeof(char) * 66000);
-	return (0);
 }

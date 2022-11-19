@@ -6,15 +6,13 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:44 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/11/17 19:09:31 by lucocozz         ###   ########.fr       */
+/*   Updated: 2022/11/19 17:52:20 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_malloc.h"
 
-static pthread_mutex_t g_malloc_mutex = PTHREAD_MUTEX_INITIALIZER;
-
-size_t	page_size_from_alloc_size(alloc_size)
+static size_t	__page_size_from_alloc_size(size_t alloc_size)
 {
 	if (alloc_size <= TINY_PAGE_SIZE)
 		return (TINY_PAGE_SIZE);
@@ -24,48 +22,129 @@ size_t	page_size_from_alloc_size(alloc_size)
 		return (alloc_size);
 }
 
-int	alloc_page(t_page **page, size_t size)
+static t_page	*__alloc_page(size_t size)
 {
 	struct rlimit	limit;
-	t_page			*new_page = NULL;
+	t_page			*page = NULL;
 
 	size += sizeof(t_page);
 	getrlimit(RLIMIT_AS, &limit);
 	if (size > limit.rlim_max)
-		return (-1);
-	new_page = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-	if (new_page == MAP_FAILED)
-		return (-1);
-	new_page->size = size;
-	new_page->block_count = 0;
-	new_page->freed_blocks = 0;
-	*page = new_page;
-	return (0);
+		return (NULL);
+	page = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+	if (page == MAP_FAILED)
+		return (NULL);
+	page->size = size;
+	page->used_size = sizeof(t_page);
+	page->block_count = 0;
+	page->freed_count = 0;
+	page->blocks = NULL;
+	page->next = NULL;
+	return (page);
 }
 
-void	*alloc_block(t_binding binder, size_t size)
+static t_block	*__find_fitting_block(t_page *page, size_t alloc_size)
 {
-	if (binder.pages == NULL) {
-		if (alloc_page(binder.pages, page_size_from_alloc_size(size)) == -1);
-			return (NULL);
-		binder.count++;
+	t_block	*last_block = NULL;
+	t_block	*block = page->blocks;
+
+	// Create block at start of page if none exists
+	if (page->block_count == 0) {
+		page->block_count++;
+		page->blocks = (t_block *)(page + sizeof(t_page));
+		return (page->blocks);
 	}
+
+	// Search for a free block
+	for (uint i = 0; i < page->block_count; i++)
+	{
+		if (block->allocated == false && alloc_size <= block->size)
+			return (block);
+		last_block = block;
+		block = block->next;
+	}
+
+	// Add block at end if there is space available
+	if (alloc_size <= page->size - page->used_size) {
+		block = (void*)page + page->used_size;
+		last_block->next = block;
+		block->next = NULL;
+		page->block_count++;
+		return (block);
+	}
+	return (NULL);
+}
+
+static t_index	__find_first_fit(t_binding *binder, size_t alloc_size)
+{
+	t_block	*block = NULL;
+	t_page	*last_page = NULL;
+	t_page	*page = binder->pages;
+
+	// Search a page with a avalaible block
+	while (page != NULL)
+	{
+		if ((block = __find_fitting_block(page, alloc_size)) != NULL)
+			return ((t_index){.page = page, .block = block});
+		last_page = page;
+		page = page->next;
+	}
+
+	// Create a new page if none is available
+	page = __alloc_page(__page_size_from_alloc_size(alloc_size));
+	if (page == NULL)
+		return ((t_index){NULL, NULL});
+	if (last_page != NULL)
+		last_page->next = page;
+	else
+		binder->pages = page;
+	binder->count++;
+	return ((t_index){.page = page, .block = __find_fitting_block(page, alloc_size)});
+}
+
+static void	__block_fragmentation(t_block *block, t_page *parent)
+{
+	t_block	*next_block = block + block->size;
+
+	if (block->next != NULL && block->next != next_block)
+	{
+		next_block->next = block->next;
+		next_block->allocated = false;
+		next_block->parent = parent;
+		next_block->size = block->next - next_block;
+		block->next = next_block;
+	}
+}
+
+static void	*__do_alloc(t_binding *binder, size_t alloc_size)
+{
+	t_index	index;
+
+	index = __find_first_fit(binder, alloc_size);
+	if (index.page == NULL)
+		return (NULL);
+	index.block->allocated = true;
+	index.block->size = alloc_size;
+	index.block->parent = index.page;
+	index.page->used_size += index.block->size;
+	__block_fragmentation(index.block, index.page);
+	return ((void *)(index.block + sizeof(t_block)));
 }
 
 void	*malloc(size_t size)
 {
-	void	*alloc = NULL;
-	size_t	align_size = ALIGN(size);
-	size_t	page_size = page_size_from_alloc_size(align_size);
+	void	*alloc;
+	size_t	alloc_size = ALIGN(size + sizeof(t_block));
+	size_t	page_size = __page_size_from_alloc_size(alloc_size);
 
 	pthread_mutex_lock(&g_malloc_mutex);
 
 	if (page_size == TINY_PAGE_SIZE)
-		alloc = alloc_block(g_heap.tiny, align_size);
+		alloc = __do_alloc(&g_heap.tiny, alloc_size);
 	else if (page_size == SMALL_PAGE_SIZE)
-		alloc = alloc_block(g_heap.small, align_size);
+		alloc = __do_alloc(&g_heap.small, alloc_size);
 	else
-		alloc = alloc_block(g_heap.large, align_size);
+		alloc = __do_alloc(&g_heap.large, alloc_size);
 
 	pthread_mutex_unlock(&g_malloc_mutex);
 	return (alloc);
