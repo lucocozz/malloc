@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_malloc.h                                        :+:      :+:    :+:   */
+/*   malloc.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 15:28:58 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/11/19 17:29:54 by lucocozz         ###   ########.fr       */
+/*   Updated: 2022/11/20 21:11:39 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_MALLOC_H
-# define FT_MALLOC_H
+#ifndef MALLOC_H
+# define MALLOC_H
 
 # include <sys/mman.h>
 # include <unistd.h>
@@ -42,6 +42,7 @@ typedef struct s_page {
 	uint			freed_count;
 	t_block			*blocks;
 	struct s_page	*next;
+	struct s_page	*prev;
 }	t_page;
 
 typedef struct s_index {
@@ -60,22 +61,8 @@ typedef struct s_heap {
 	t_binding	large;
 }	t_heap;
 
-static t_heap g_heap = {
-	.tiny = {
-		.count = 0,
-		.pages = NULL,
-	},
-	.small = {
-		.count = 0,
-		.pages = NULL,
-	},
-	.large = {
-		.count = 0,
-		.pages = NULL,
-	}
-};
-
-static pthread_mutex_t g_malloc_mutex = PTHREAD_MUTEX_INITIALIZER;
+extern t_heap g_heap;
+extern pthread_mutex_t g_malloc_mutex;
 
 void	free(void *ptr);
 void	*malloc(size_t size);

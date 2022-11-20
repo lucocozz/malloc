@@ -6,11 +6,11 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:41 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/10/28 16:40:57 by lucocozz         ###   ########.fr       */
+/*   Updated: 2022/11/20 20:29:24 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_malloc.h"
+#include "../includes/ft_malloc.h"
 
 void	*realloc(void *ptr, size_t size)
 {

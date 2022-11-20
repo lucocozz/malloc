@@ -2,6 +2,7 @@
 	"files.associations": {
 		".env": "plaintext",
 		"ft_malloc.h": "c",
-		"stdlib.h": "c"
+		"stdlib.h": "c",
+		"stdio.h": "c"
 	}
 }

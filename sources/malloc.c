@@ -6,11 +6,28 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:44 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/11/19 17:52:20 by lucocozz         ###   ########.fr       */
+/*   Updated: 2022/11/20 21:12:06 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ft_malloc.h"
+#include "../includes/malloc.h"
+
+t_heap g_heap = {
+	.tiny = {
+		.count = 0,
+		.pages = NULL,
+	},
+	.small = {
+		.count = 0,
+		.pages = NULL,
+	},
+	.large = {
+		.count = 0,
+		.pages = NULL,
+	}
+};
+
+pthread_mutex_t g_malloc_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 static size_t	__page_size_from_alloc_size(size_t alloc_size)
 {
@@ -40,6 +57,7 @@ static t_page	*__alloc_page(size_t size)
 	page->freed_count = 0;
 	page->blocks = NULL;
 	page->next = NULL;
+	page->prev = NULL;
 	return (page);
 }
 
@@ -95,7 +113,10 @@ static t_index	__find_first_fit(t_binding *binder, size_t alloc_size)
 	if (page == NULL)
 		return ((t_index){NULL, NULL});
 	if (last_page != NULL)
+	{
 		last_page->next = page;
+		page->prev = last_page;
+	}
 	else
 		binder->pages = page;
 	binder->count++;
@@ -113,6 +134,7 @@ static void	__block_fragmentation(t_block *block, t_page *parent)
 		next_block->parent = parent;
 		next_block->size = block->next - next_block;
 		block->next = next_block;
+		parent->block_count++;
 	}
 }
 
