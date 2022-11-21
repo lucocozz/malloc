@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:44 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/11/20 21:12:06 by lucocozz         ###   ########.fr       */
+/*   Updated: 2022/11/21 03:55:16 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,11 @@ static t_block	*__find_fitting_block(t_page *page, size_t alloc_size)
 	t_block	*block = page->blocks;
 
 	// Create block at start of page if none exists
-	if (page->block_count == 0) {
+	if (page->blocks == NULL) {
 		page->block_count++;
 		page->blocks = (t_block *)(page + sizeof(t_page));
+		page->blocks->next = NULL;
+		page->blocks->prev = NULL;
 		return (page->blocks);
 	}
 
@@ -84,9 +86,10 @@ static t_block	*__find_fitting_block(t_page *page, size_t alloc_size)
 
 	// Add block at end if there is space available
 	if (alloc_size <= page->size - page->used_size) {
-		block = (void*)page + page->used_size;
-		last_block->next = block;
+		block = (void *)page + page->used_size;
 		block->next = NULL;
+		block->prev = last_block;
+		last_block->next = block;
 		page->block_count++;
 		return (block);
 	}
@@ -127,9 +130,12 @@ static void	__block_fragmentation(t_block *block, t_page *parent)
 {
 	t_block	*next_block = block + block->size;
 
-	if (block->next != NULL && block->next != next_block)
+	if (block->next != NULL && block->next != next_block &&
+		(size_t)(block->next - next_block) >= sizeof(t_block) + ALIGNMENT) // doesn't fragment if space is too small
 	{
 		next_block->next = block->next;
+		block->next->prev = next_block;
+		next_block->prev = block;
 		next_block->allocated = false;
 		next_block->parent = parent;
 		next_block->size = block->next - next_block;

@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 15:28:58 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/11/20 21:11:39 by lucocozz         ###   ########.fr       */
+/*   Updated: 2022/11/21 02:17:21 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_block {
 	size_t			size;
 	bool			allocated;
 	struct s_block	*next;
+	struct s_block	*prev;
 	struct s_page	*parent;
 }	t_block;
 

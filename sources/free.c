@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:48 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/11/20 21:49:29 by lucocozz         ###   ########.fr       */
+/*   Updated: 2022/11/21 02:45:40 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static void	__link_blocks(t_page *page, t_block *first, t_block *second)
 {
 	first->size += second->size;
 	first->next = second->next;
+	second->next->prev = first;
 	page->block_count--;
 	page->freed_count--;
 }
@@ -37,21 +38,16 @@ static void	__clean_last_block(t_page *page)
 static void	__block_defragmentation(t_page *page, t_block *block)
 {
 	t_block	*prev = NULL;
-	t_block	*current = page->blocks;
+	t_block	*next = NULL;
 
-	if (current == block)
-		return ;
-	while (current != block) {
-		prev = current;
-		current = current->next;
-	}
-	if (prev->allocated == false)
-		__link_blocks(page, prev, current);
-	if (current->next != NULL && current->next->allocated == false) {
-		if (prev->allocated != false)
-			prev = current;
-		__link_blocks(page, prev, current);
-	}
+	prev = block->prev;
+	if (prev != NULL && prev->allocated == false)
+		__link_blocks(page, prev, block);
+	next = block->next;
+	if (prev != NULL && prev->allocated == false)
+		block = prev;
+	if (next != NULL && next->allocated == false)
+		__link_blocks(page, block, next);
 	__clean_last_block(page);
 }
 

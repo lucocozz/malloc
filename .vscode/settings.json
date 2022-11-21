@@ -3,6 +3,7 @@
 		".env": "plaintext",
 		"ft_malloc.h": "c",
 		"stdlib.h": "c",
-		"stdio.h": "c"
+		"stdio.h": "c",
+		"malloc.h": "c"
 	}
 }
