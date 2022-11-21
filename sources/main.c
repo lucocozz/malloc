@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 17:44:05 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/11/21 21:30:00 by lucocozz         ###   ########.fr       */
+/*   Updated: 2022/11/21 22:37:57 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	main()
 		ptr[i] = malloc(sizeof(char) * 20);
 	for (int i = 0; i < ALLOC; i++)
 		free(ptr[i]);
+
 
 
 	// char	*str = malloc(sizeof(char) * 64);
