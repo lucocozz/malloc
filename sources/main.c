@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 17:44:05 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/11/21 17:08:31 by lucocozz         ###   ########.fr       */
+/*   Updated: 2022/11/21 21:30:00 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 #include <string.h>
 #include "../includes/malloc.h"
 
-#define ALLOC 23
+#define ALLOC 100
 
 int	main()
 {
 	char	*ptr[ALLOC];
 
 	for (int i = 0; i < ALLOC; i++)
-		ptr[i] = malloc(sizeof(char) * 64);
+		ptr[i] = malloc(sizeof(char) * 20);
 	for (int i = 0; i < ALLOC; i++)
 		free(ptr[i]);
 
