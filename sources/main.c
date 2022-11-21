@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 17:44:05 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/11/21 14:41:37 by lucocozz         ###   ########.fr       */
+/*   Updated: 2022/11/21 17:08:31 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,22 @@
 
 int	main()
 {
-	char	*ptr[100];
+	char	*ptr[ALLOC];
 
 	for (int i = 0; i < ALLOC; i++)
 		ptr[i] = malloc(sizeof(char) * 64);
 	for (int i = 0; i < ALLOC; i++)
 		free(ptr[i]);
+
+
+	// char	*str = malloc(sizeof(char) * 64);
+
+	// strcpy(str, "hello world gdgsgssrgdrdrhdrdrtgdrt");
+	// printf("%s\n", str);
+	// str = realloc(str, 10);
+	// printf("%s\n", str);
+	// str = realloc(str, 128);
+	// strcat(str, "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000");
+	// printf("%s\n", str);
 	return (0);
 }
