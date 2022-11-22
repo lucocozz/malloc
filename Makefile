@@ -6,7 +6,7 @@
 #    By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/30 15:23:20 by lucocozz          #+#    #+#              #
-#    Updated: 2022/11/16 16:50:56 by lucocozz         ###   ########.fr        #
+#    Updated: 2022/11/22 18:17:03 by lucocozz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ ifeq ($(HOSTTYPE),)
 HOSTTYPE := $(shell uname -m)_$(shell uname -s)
 endif
 
-NAME = libft_malloc_$(HOSTTYPE)
+NAME = libft_malloc_$(HOSTTYPE).so
 
 SRCS =	malloc.c		\
 		free.c			\
@@ -41,7 +41,7 @@ CXXFLAGS = $(INCLUDES_DIR:%=-I %)
 ifeq ($(DEBUG), on)
 	CXXFLAGS += -g3
 endif
-LDFLAGS = $(LIBS:%=-L lib%) $(LIBS:%=-l%) -lpthread
+LDFLAGS = $(LIBS:%=-L lib%) $(LIBS:%=-l%)
 
 vpath %.c	$(addprefix $(SRCS_DIR), /.)
 
@@ -53,11 +53,12 @@ scan:
 	scan-build-12 $(MAKE)
 
 $(NAME): $(OBJS) | $(LIBS:%=lib%.a)
-	$(CC) $(CXXFLAGS) $^ -o $(NAME) $(LDFLAGS)
+	ar -rcs $(NAME) $(OBJS)
+	ln -s $(NAME) libft_malloc.so
 
 -include $(DEPENDENCIES)
 $(OBJS_DIR)/%.o: %.c $(OBJS_DIR)/debug$(DEBUG) | $(OBJS_DIR) 
-	$(CC) $(CFLAGS) $(CXXFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(CXXFLAGS) $(LDFLAGS) -c $< -o $@ 
 
 $(OBJS_DIR):
 	$(MKDIR) $(OBJS_DIR)

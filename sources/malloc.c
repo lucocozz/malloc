@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:44 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/11/22 16:29:27 by lucocozz         ###   ########.fr       */
+/*   Updated: 2022/11/22 18:02:14 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,8 +123,9 @@ static t_index	__find_first_fit(t_binding *binder, size_t alloc_size)
 	return ((t_index){.page = page, .block = __find_fitting_block(page, alloc_size)});
 }
 
-static void	__block_fragmentation(t_block *block, t_page *parent)
+static int	__block_fragmentation(t_block *block)
 {
+	t_page	*parent = block->parent;
 	t_block	*next_block = block + block->size;
 
 	if (block->next != NULL && block->next != next_block &&
@@ -138,7 +139,9 @@ static void	__block_fragmentation(t_block *block, t_page *parent)
 		next_block->size = block->next - next_block;
 		block->next = next_block;
 		parent->block_count++;
+		return (1);
 	}
+	return (0);
 }
 
 static void	*__do_alloc(t_binding *binder, size_t alloc_size)
@@ -152,7 +155,7 @@ static void	*__do_alloc(t_binding *binder, size_t alloc_size)
 	index.block->size = alloc_size;
 	index.block->parent = index.page;
 	index.page->used_size += index.block->size;
-	__block_fragmentation(index.block, index.page);
+	__block_fragmentation(index.block);
 	return ((void *)index.block + sizeof(t_block));
 }
 

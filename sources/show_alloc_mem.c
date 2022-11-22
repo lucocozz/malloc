@@ -6,11 +6,11 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 19:42:50 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/11/20 20:29:30 by lucocozz         ###   ########.fr       */
+/*   Updated: 2022/11/22 18:08:40 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ft_malloc.h"
+#include "../includes/malloc.h"
 
 void	show_alloc_mem(void)
 {

@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:48 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/11/22 16:39:04 by lucocozz         ###   ########.fr       */
+/*   Updated: 2022/11/22 19:37:42 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,16 @@ static void	__link_blocks(t_page *page, t_block *first, t_block *second)
 	page->freed_count--;
 }
 
-static void	__clean_last_block(t_page *page)
+static void	__clean_last_block(t_block *block)
 {
-	t_block	*block = page->blocks;
+	t_block	*prev = block->prev;
+	t_page	*page = block->parent;
 
-	for (uint i = 0; i < page->block_count - 2; i++)
-		block = block->next;
-	if (block->next->allocated == false) {
-		page->used_size -= block->next->size;
+	if (block->next == NULL) {
+		page->used_size -= block->size;
 		page->block_count--;
 		page->freed_count--;
-		block->next = NULL;
+		prev->next = NULL;
 	}
 }
 
@@ -48,7 +47,7 @@ static void	__block_defragmentation(t_page *page, t_block *block)
 		block = prev;
 	if (next != NULL && next->allocated == false)
 		__link_blocks(page, block, next);
-	__clean_last_block(page);
+	__clean_last_block(block);
 }
 
 static t_binding	*__get_binder(t_page *page)
