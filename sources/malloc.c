@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:44 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/11/21 22:37:31 by lucocozz         ###   ########.fr       */
+/*   Updated: 2022/11/22 16:29:27 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,15 +69,14 @@ static t_block	*__find_fitting_block(t_page *page, size_t alloc_size)
 	// Create block at start of page if none exists
 	if (page->blocks == NULL) {
 		page->block_count = 1;
-		page->blocks = (t_block *)(page + sizeof(t_page));
+		page->blocks = (void *)page + sizeof(t_page);
 		page->blocks->next = NULL;
 		page->blocks->prev = NULL;
 		return (page->blocks);
 	}
 
 	// Search for a free block
-	for (uint i = 0; i < page->block_count; i++)
-	{
+	for (uint i = 0; i < page->block_count; i++) {
 		if (block->allocated == false && alloc_size <= block->size)
 			return (block);
 		last_block = block;
@@ -86,7 +85,7 @@ static t_block	*__find_fitting_block(t_page *page, size_t alloc_size)
 
 	// Add block at end if there is space available
 	if (alloc_size <= page->size - page->used_size) {
-		block = last_block + last_block->size;
+		block = (void *)last_block + last_block->size;
 		block->next = NULL;
 		block->prev = last_block;
 		last_block->next = block;
@@ -103,8 +102,7 @@ static t_index	__find_first_fit(t_binding *binder, size_t alloc_size)
 	t_page	*page = binder->pages;
 
 	// Search a page with a avalaible block
-	while (page != NULL)
-	{
+	while (page != NULL) {
 		if ((block = __find_fitting_block(page, alloc_size)) != NULL)
 			return ((t_index){.page = page, .block = block});
 		last_page = page;
@@ -115,8 +113,7 @@ static t_index	__find_first_fit(t_binding *binder, size_t alloc_size)
 	page = __alloc_page(__page_size_from_alloc_size(alloc_size));
 	if (page == NULL)
 		return ((t_index){NULL, NULL});
-	if (last_page != NULL)
-	{
+	if (last_page != NULL) {
 		last_page->next = page;
 		page->prev = last_page;
 	}
@@ -156,7 +153,7 @@ static void	*__do_alloc(t_binding *binder, size_t alloc_size)
 	index.block->parent = index.page;
 	index.page->used_size += index.block->size;
 	__block_fragmentation(index.block, index.page);
-	return ((void *)(index.block + sizeof(t_block)));
+	return ((void *)index.block + sizeof(t_block));
 }
 
 void	*malloc(size_t size)

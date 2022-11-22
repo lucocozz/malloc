@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:48 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/11/21 02:45:40 by lucocozz         ###   ########.fr       */
+/*   Updated: 2022/11/22 16:39:04 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static void	__free_page(t_page *page)
 
 void	free(void *ptr)
 {
-	t_block	*block = (t_block *)ptr - sizeof(t_block);
+	t_block	*block = ptr - sizeof(t_block);
 	t_page	*page = block->parent;
 
 	pthread_mutex_lock(&g_malloc_mutex);
