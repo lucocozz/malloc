@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:41 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/11/22 19:59:21 by lucocozz         ###   ########.fr       */
+/*   Updated: 2022/11/23 01:00:06 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,24 +38,53 @@ static int	__block_defragmentation(t_block *block, size_t size)
 	return (0);
 }
 
+static void	__clean_fragmentation(t_block *block)
+{
+	t_block	*next;
+	t_page	*page;
+
+	if (block != NULL && block->next->allocated == false) {
+		page = block->parent;
+		next = block->next;
+		block->size += next->size;
+		block->next = next->next;
+		if (next->next != NULL)
+			next->next->prev = block;
+		page->block_count--;
+		page->freed_count--;
+	}
+}
+
 static int __block_fragmentation(t_block *block, size_t size)
 {
 	t_block	*next;
 	t_page	*page = block->parent;
 
-	if (size > sizeof(t_block) + ALIGNMENT)
+	if (block->size - size > sizeof(t_block) + ALIGNMENT)
 	{
-		next = (void *)block + size;
-		next->allocated = false;
-		next->parent = page;
-		next->size = block->size - size;
+		if (block->next != NULL)
+		{
+			next = (void *)block + size;
+			next->allocated = false;
+			next->parent = page;
+			next->size = block->size - size;
+			next->next = block->next;
+			next->prev = block;
+			block->next = next;
+			page->block_count++;
+			page->freed_count++;
+		}
+		else
+			page->used_size = block->size - size;
+		block->size = size;
+		__clean_fragmentation(block->next);
+		return (1);
 	}
 	return (0);
 }
 
 static int	__check_defragmentation(t_block *block, size_t size)
 {
-	size += sizeof(t_block);
 	if (size == block->size)
 		return (1);
 	else if (size > block->size)
@@ -76,7 +105,7 @@ void	*realloc(void *ptr, size_t size)
 	if (ptr == NULL)
 		return (malloc(size));
 
-	if (__check_defragmentation(ptr, size) == 1)
+	if (__check_defragmentation(ptr - sizeof(t_block), size + sizeof(t_block)) == 1)
 		return (ptr);
 
 	new = malloc(size);
