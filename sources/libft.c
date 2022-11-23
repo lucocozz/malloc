@@ -6,21 +6,11 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 18:33:54 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/11/23 19:40:49 by lucocozz         ###   ########.fr       */
+/*   Updated: 2022/11/23 21:27:44 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/malloc.h"
-
-static int	ft_strlen(char *str)
-{
-	int i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
 
 static int	ft_is_alnum(char c)
 {
@@ -73,6 +63,21 @@ void	ft_putnbr_base(long nbr, char *base)
 	}
 }
 
+int	ft_strlen(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
+
+void	ft_putnbr(long nbr)
+{
+	ft_putnbr_base(nbr, "0123456789");
+}
+
 void	ft_putchar(const char c)
 {
 	write(STDOUT_FILENO, &c, 1);
@@ -85,4 +90,12 @@ void	ft_putstr(const char *str)
 	while (str[len] != '\0')
 		len++;
 	write(STDOUT_FILENO, str, len);
+}
+
+void	ft_print_address(void *ptr)
+{
+	long	address = (long)ptr;
+
+	ft_putstr("0x");
+	ft_putnbr_base(address, "0123456789ABCDEF");
 }

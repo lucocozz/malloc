@@ -6,7 +6,7 @@
 #    By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/30 15:23:20 by lucocozz          #+#    #+#              #
-#    Updated: 2022/11/23 20:05:34 by lucocozz         ###   ########.fr        #
+#    Updated: 2022/11/23 21:33:09 by lucocozz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRCS =	malloc.c			\
 		free.c				\
 		realloc.c			\
 		show_alloc_mem.c	\
+		show_alloc_mem_ex.c	\
 		libft.c
 
 OBJS = $(SRCS:%.c=$(OBJS_DIR)/%.o)
@@ -55,6 +56,7 @@ scan:
 
 $(NAME): $(OBJS) | $(LIBS:%=lib%.a)
 	ar -rcs $(NAME) $(OBJS)
+	$(RM) libft_malloc.so
 	ln -s $(NAME) libft_malloc.so
 
 -include $(DEPENDENCIES)

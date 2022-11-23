@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 15:28:58 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/11/23 20:07:33 by lucocozz         ###   ########.fr       */
+/*   Updated: 2022/11/23 20:51:20 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,13 @@ void	free(void *ptr);
 void	*malloc(size_t size);
 void	*realloc(void *ptr, size_t size);
 void	show_alloc_mem(void);
+void	show_alloc_mem_ex(void);
 
+int		ft_strlen(char *str);
 void	ft_putnbr_base(long nbr, char *base);
+void	ft_putnbr(long nbr);
 void	ft_putstr(const char *str);
 void	ft_putchar(const char c);
+void	ft_print_address(void *ptr);
 
 #endif
