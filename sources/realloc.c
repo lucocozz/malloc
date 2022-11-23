@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:41 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/11/23 01:00:06 by lucocozz         ###   ########.fr       */
+/*   Updated: 2022/11/23 01:11:57 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ static int	__check_defragmentation(t_block *block, size_t size)
 void	*realloc(void *ptr, size_t size)
 {
 	void	*new;
+	int		check;
 
 	if (size == 0) {
 		if (ptr != NULL)
@@ -105,7 +106,10 @@ void	*realloc(void *ptr, size_t size)
 	if (ptr == NULL)
 		return (malloc(size));
 
-	if (__check_defragmentation(ptr - sizeof(t_block), size + sizeof(t_block)) == 1)
+	pthread_mutex_lock(&g_malloc_mutex);
+	check = __check_defragmentation(ptr - sizeof(t_block), size + sizeof(t_block));
+	pthread_mutex_unlock(&g_malloc_mutex);
+	if (check == 1)
 		return (ptr);
 
 	new = malloc(size);
