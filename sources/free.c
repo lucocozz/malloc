@@ -6,17 +6,18 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:48 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/11/22 19:37:42 by lucocozz         ###   ########.fr       */
+/*   Updated: 2022/11/24 17:43:15 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/malloc.h"
 
-static void	__link_blocks(t_page *page, t_block *first, t_block *second)
+static void	__merge_blocks(t_page *page, t_block *first, t_block *second)
 {
 	first->size += second->size;
 	first->next = second->next;
-	second->next->prev = first;
+	if (second->next != NULL)
+		second->next->prev = first;
 	page->block_count--;
 	page->freed_count--;
 }
@@ -41,12 +42,12 @@ static void	__block_defragmentation(t_page *page, t_block *block)
 
 	prev = block->prev;
 	if (prev != NULL && prev->allocated == false)
-		__link_blocks(page, prev, block);
+		__merge_blocks(page, prev, block);
 	next = block->next;
 	if (prev != NULL && prev->allocated == false)
 		block = prev;
 	if (next != NULL && next->allocated == false)
-		__link_blocks(page, block, next);
+		__merge_blocks(page, block, next);
 	__clean_last_block(block);
 }
 
@@ -79,7 +80,7 @@ void	free(void *ptr)
 	t_block	*block = ptr - sizeof(t_block);
 	t_page	*page = block->parent;
 
-	pthread_mutex_lock(&g_malloc_mutex);
+	pthread_mutex_lock(&g_heap_mutex);
 
 	block->allocated = false;
 	page->freed_count++;
@@ -88,5 +89,5 @@ void	free(void *ptr)
 	else
 		__block_defragmentation(page, block);
 
-	pthread_mutex_unlock(&g_malloc_mutex);
+	pthread_mutex_unlock(&g_heap_mutex);
 }

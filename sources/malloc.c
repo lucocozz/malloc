@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:44 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/11/22 18:02:14 by lucocozz         ###   ########.fr       */
+/*   Updated: 2022/11/24 16:48:49 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_heap g_heap = {
 	}
 };
 
-pthread_mutex_t g_malloc_mutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t g_heap_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 static size_t	__page_size_from_alloc_size(size_t alloc_size)
 {
@@ -167,7 +167,7 @@ void	*malloc(size_t size)
 
 	if (size == 0)
 		return (NULL);
-	pthread_mutex_lock(&g_malloc_mutex);
+	pthread_mutex_lock(&g_heap_mutex);
 
 	if (page_size == TINY_PAGE_SIZE)
 		alloc = __do_alloc(&g_heap.tiny, alloc_size);
@@ -176,6 +176,6 @@ void	*malloc(size_t size)
 	else
 		alloc = __do_alloc(&g_heap.large, alloc_size);
 
-	pthread_mutex_unlock(&g_malloc_mutex);
+	pthread_mutex_unlock(&g_heap_mutex);
 	return (alloc);
 }

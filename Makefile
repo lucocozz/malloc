@@ -6,7 +6,7 @@
 #    By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/30 15:23:20 by lucocozz          #+#    #+#              #
-#    Updated: 2022/11/23 21:33:09 by lucocozz         ###   ########.fr        #
+#    Updated: 2022/11/24 18:27:05 by lucocozz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,11 +16,12 @@ endif
 
 NAME = libft_malloc_$(HOSTTYPE).so
 
-SRCS =	malloc.c			\
-		free.c				\
-		realloc.c			\
-		show_alloc_mem.c	\
-		show_alloc_mem_ex.c	\
+SRCS =	malloc.c				\
+		free.c					\
+		realloc.c				\
+		show_alloc_mem.c		\
+		show_alloc_mem_ex.c		\
+		show_alloc_mem_freed.c	\
 		libft.c
 
 OBJS = $(SRCS:%.c=$(OBJS_DIR)/%.o)

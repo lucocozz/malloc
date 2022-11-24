@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   show_alloc_mem.c                                   :+:      :+:    :+:   */
+/*   show_alloc_mem_freed.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 19:42:50 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/11/24 18:26:49 by lucocozz         ###   ########.fr       */
+/*   Updated: 2022/11/24 18:26:44 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,18 @@ static size_t	__print_blocks(t_page *page)
 	t_block	*block = page->blocks;
 
 	for (uint i = 0; i < page->block_count; i++) {
+		ft_putstr("  ");
+		ft_print_address(((void *)block + sizeof(t_page)));
+		ft_putstr(" - ");
+		ft_print_address(((void *)block + block->size));
+		ft_putstr(" : ");
 		if (block->allocated == true) {
-			ft_putstr("  ");
-			ft_print_address(((void *)block + sizeof(t_page)));
-			ft_putstr(" - ");
-			ft_print_address(((void *)block + block->size));
-			ft_putstr(" : ");
 			ft_putnbr(block->size - sizeof(t_block));
 			ft_putstr(" bytes\n");
 			total += (block->size - sizeof(t_block));
 		}
+		else
+			ft_putstr("freed\n");
 		block = block->next;
 	}
 	return (total);
@@ -49,7 +51,7 @@ static size_t	__print_pages(t_binding *binder, const char *type)
 	return (total);
 }
 
-void	show_alloc_mem(void)
+void	show_alloc_mem_freed(void)
 {
 	size_t	total = 0;
 

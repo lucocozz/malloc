@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 19:42:50 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/11/23 21:41:03 by lucocozz         ###   ########.fr       */
+/*   Updated: 2022/11/24 16:48:49 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,15 +68,17 @@ static size_t	__print_blocks(t_page *page)
 	t_block	*block = page->blocks;
 
 	for (uint i = 0; i < page->block_count; i++) {
-		ft_putstr("  ");
-		ft_print_address(((void *)block + sizeof(t_page)));
-		ft_putstr(" - ");
-		ft_print_address(((void *)block + block->size));
-		ft_putstr(" : ");
-		ft_putnbr(block->size - sizeof(t_block));
-		ft_putstr(" bytes\n");
-		ft_print_memory((void *)block + sizeof(t_block), block->size - sizeof(t_block));
-		total += (block->size - sizeof(t_block));
+		if (block->allocated == true) {
+			ft_putstr("  ");
+			ft_print_address(((void *)block + sizeof(t_page)));
+			ft_putstr(" - ");
+			ft_print_address(((void *)block + block->size));
+			ft_putstr(" : ");
+			ft_putnbr(block->size - sizeof(t_block));
+			ft_putstr(" bytes\n");
+			ft_print_memory((void *)block + sizeof(t_block), block->size - sizeof(t_block));
+			total += (block->size - sizeof(t_block));
+		}
 		block = block->next;
 	}
 	return (total);
@@ -102,12 +104,12 @@ void	show_alloc_mem_ex(void)
 {
 	size_t	total = 0;
 
-	pthread_mutex_lock(&g_malloc_mutex);
+	pthread_mutex_lock(&g_heap_mutex);
 	total += __print_pages(&g_heap.tiny, "TINY");
 	total += __print_pages(&g_heap.small, "SMALL");
 	total += __print_pages(&g_heap.large, "LARGE");
 	ft_putstr("Total : ");
 	ft_putnbr(total);
 	ft_putstr(" bytes\n");
-	pthread_mutex_unlock(&g_malloc_mutex);
+	pthread_mutex_unlock(&g_heap_mutex);
 }
