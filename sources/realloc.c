@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:41 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/11/24 16:48:49 by lucocozz         ###   ########.fr       */
+/*   Updated: 2022/11/24 23:24:02 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static int	__block_defragmentation(t_block *block, size_t size)
 		block->next = next->next;
 		next->prev = block;
 		page->block_count--;
+		page->freed_count--;
 		return (1);
 	}
 	return (0);

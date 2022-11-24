@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 19:42:50 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/11/24 16:48:49 by lucocozz         ###   ########.fr       */
+/*   Updated: 2022/11/24 22:44:42 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ static void	ft_hex(long nb)
 	}
 }
 
-static void	ft_print_hex(u_char *str, uint offset)
+static void	ft_print_hex(char *mem, uint offset)
 {
 	for (uint i = offset; i < offset + 16; i++)
 	{
-		if (str[i])
-			ft_hex(str[i]);
+		if (mem[i])
+			ft_hex(mem[i]);
 		else
 			ft_putstr("  ");
 		if (i % 2 != 0)
@@ -35,12 +35,12 @@ static void	ft_print_hex(u_char *str, uint offset)
 	}
 }
 
-static void	ft_print_ascii(u_char *str, uint offset)
+static void	ft_print_ascii(char *mem, uint offset)
 {
-	for (uint i = offset; i < offset + 16 && str[i]; i++)
+	for (uint i = offset; i < offset + 16 && mem[i]; i++)
 	{
-		if (str[i] >= 32 && str[i] <= 126)
-			ft_putchar(str[i]);
+		if (mem[i] >= 32 && mem[i] <= 126)
+			ft_putchar(mem[i]);
 		else
 			ft_putchar('.');
 	}
@@ -48,16 +48,16 @@ static void	ft_print_ascii(u_char *str, uint offset)
 
 static void	ft_print_memory(void *address, uint size)
 {
-	u_char	*tmp = (u_char *)address;
+	char	*mem = (char *)address;
 
 	for (uint i = 0; i < size; i += 16)
 	{
 		ft_putstr("    ");
-		ft_print_address((void *)&tmp[i]);
+		ft_print_address((void *)&mem[i]);
 		ft_putstr("  ");
-		ft_print_hex(tmp, i);
+		ft_print_hex(mem, i);
 		ft_putchar(' ');
-		ft_print_ascii(tmp, i);
+		ft_print_ascii(mem, i);
 		ft_putchar('\n');
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 15:28:58 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/11/24 18:26:33 by lucocozz         ###   ########.fr       */
+/*   Updated: 2022/11/25 00:27:41 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,12 @@
 # define ALIGNMENT 8
 # define ALIGN(size) (((size) + (ALIGNMENT - 1)) & ~(ALIGNMENT - 1))
 
-															// if getpagesize() == 4096
-# define TINY_PAGE_SIZE (size_t)(4 * getpagesize()) 		// 16384
-# define SMALL_PAGE_SIZE (size_t)(16 * getpagesize()) 		// 65536
+// TODO: fix size
+																			// if getpagesize() == 4096
+# define TINY_PAGE_SIZE (size_t)(8 * getpagesize()) 						// 32768
+# define TINY_BLOCK_SIZE (size_t)(TINY_PAGE_SIZE / 128)						// 256
+# define SMALL_PAGE_SIZE (size_t)(TINY_BLOCK_SIZE * getpagesize())			// 1048576
+# define SMALL_BLOCK_SIZE (size_t)(SMALL_PAGE_SIZE / 128)					// 8192
 
 typedef struct s_block {
 	size_t			size;

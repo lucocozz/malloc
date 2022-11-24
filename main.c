@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 22:09:48 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/11/24 19:00:26 by lucocozz         ###   ########.fr       */
+/*   Updated: 2022/11/25 00:18:51 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	__simple_alloc_free(void)
 	ptr = malloc(sizeof(char) * 16);
 	if (ptr != NULL)
 	{
-		strcpy(ptr, "hello world\n");
+		strcpy(ptr, "hello world\n\t\r\v");
 		show_alloc_mem_ex();
 		free(ptr);
 		show_alloc_mem();
@@ -59,8 +59,8 @@ static void	__multiple_size(void)
 	ft_putstr("--------------------------------------\n");
 
 	void	*tiny = malloc(64);
-	void	*small = malloc(30000);
-	void	*large = malloc(100000);
+	void	*small = malloc(1024);
+	void	*large = malloc(4096);
 
 	show_alloc_mem();
 
@@ -141,27 +141,67 @@ static void	__malloc_failed(void)
 {
 	ft_putstr("\n\nTEST 7: check malloc failure\n");
 	ft_putstr("--------------------------------------\n");
+
 	void	*ptr = malloc(99999999999999);
 
 	if (ptr == NULL)
 		ft_putstr("malloc() error: too big allocation\n");
-	else
+	else {
 		ft_putstr("malloc(): success\n");
+		free(ptr);
+	}
+	show_alloc_mem_freed();
 }
 
 static void	__test_realloc(void)
 {
-	ft_putstr("\n\nTEST 7: check malloc failure\n");
+	ft_putstr("\n\nTEST 8: test basic realloc\n");
 	ft_putstr("--------------------------------------\n");
 
-	void	*ptr = malloc(16);
+	void	*ptr = malloc(32);
 
-	strcpy(ptr, "hello word");
+	strcpy(ptr, "hello word test toto titi tata");
 	show_alloc_mem_ex();
 
-// TODO:
 	ptr = realloc(ptr, 64);
 	show_alloc_mem_ex();
+
+	ptr = realloc(ptr, 8);
+	show_alloc_mem_ex();
+
+	free(ptr);
+	show_alloc_mem_freed();
+}
+
+static void	__realloc_defragmentation(void)
+{
+	ft_putstr("\n\nTEST 9: realloc (de)fragmentation\n");
+	ft_putstr("--------------------------------------\n");
+
+	void	*ptr1 = malloc(16);
+	void	*ptr2 = malloc(128);
+	void	*ptr3 = malloc(16);
+
+	void	*ptr;
+
+	show_alloc_mem_freed();
+
+	ptr = realloc(ptr2, 16);
+	show_alloc_mem_freed();
+
+	if (ptr == ptr2)
+		ft_putstr("address is equal\n");
+
+	ptr = realloc(ptr2, 32);
+	show_alloc_mem_freed();
+
+	if (ptr == ptr2)
+		ft_putstr("address is equal\n");
+
+	free(ptr1);
+	free(ptr2);
+	free(ptr3);
+	show_alloc_mem_freed();
 }
 
 int	main()
@@ -174,5 +214,6 @@ int	main()
 	__check_fragmentation();
 	__malloc_failed();
 	__test_realloc();
+	__realloc_defragmentation();
 	return (0);
 }

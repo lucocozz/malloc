@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:44 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/11/24 16:48:49 by lucocozz         ###   ########.fr       */
+/*   Updated: 2022/11/25 00:13:49 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,15 +163,14 @@ void	*malloc(size_t size)
 {
 	void	*alloc;
 	size_t	alloc_size = ALIGN(size + sizeof(t_block));
-	size_t	page_size = __page_size_from_alloc_size(alloc_size);
 
 	if (size == 0)
 		return (NULL);
 	pthread_mutex_lock(&g_heap_mutex);
 
-	if (page_size == TINY_PAGE_SIZE)
+	if (alloc_size <= TINY_BLOCK_SIZE)
 		alloc = __do_alloc(&g_heap.tiny, alloc_size);
-	else if (page_size == SMALL_PAGE_SIZE)
+	else if (alloc_size <= SMALL_BLOCK_SIZE)
 		alloc = __do_alloc(&g_heap.small, alloc_size);
 	else
 		alloc = __do_alloc(&g_heap.large, alloc_size);
