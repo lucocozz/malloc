@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 22:09:48 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/11/25 16:36:54 by lucocozz         ###   ########.fr       */
+/*   Updated: 2022/11/25 16:57:23 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ static void	__check_fragmentation(void)
 	ft_putstr("--------------------------------------\n");
 
 	void	*ptr1 = malloc(64);
-	void	*ptr2 = malloc(512);
+	void	*ptr2 = malloc(256);
 	void	*ptr3 = malloc(16);
 	void	*ptr4;
 

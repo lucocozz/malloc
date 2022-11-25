@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:48 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/11/24 23:33:14 by lucocozz         ###   ########.fr       */
+/*   Updated: 2022/11/25 17:03:05 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,10 @@ void	free(void *ptr)
 	
 	if (ptr == NULL)
 		return;
-	block = ptr - sizeof(t_block);
-	page = block->parent;
-
 	pthread_mutex_lock(&g_heap_mutex);
 
+	block = ptr - sizeof(t_block);
+	page = block->parent;
 	block->allocated = false;
 	page->freed_count++;
 	if (page->freed_count == page->block_count)
