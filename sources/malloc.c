@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:44 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/11/25 00:13:49 by lucocozz         ###   ########.fr       */
+/*   Updated: 2022/11/25 16:47:59 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ pthread_mutex_t g_heap_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 static size_t	__page_size_from_alloc_size(size_t alloc_size)
 {
-	if (alloc_size <= TINY_PAGE_SIZE)
+	if (alloc_size <= TINY_BLOCK_SIZE)
 		return (TINY_PAGE_SIZE);
-	else if (alloc_size <= SMALL_PAGE_SIZE)
+	else if (alloc_size <= SMALL_BLOCK_SIZE)
 		return (SMALL_PAGE_SIZE);
 	else
 		return (alloc_size);

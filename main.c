@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 22:09:48 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/11/25 00:18:51 by lucocozz         ###   ########.fr       */
+/*   Updated: 2022/11/25 16:36:54 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ static void	__multiple_size(void)
 	ft_putstr("\n\nTEST 3: multiple size\n");
 	ft_putstr("--------------------------------------\n");
 
-	void	*tiny = malloc(64);
-	void	*small = malloc(1024);
+	void	*tiny = malloc(16);
+	void	*small = malloc(512);
 	void	*large = malloc(4096);
 
 	show_alloc_mem();

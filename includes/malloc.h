@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 15:28:58 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/11/25 00:27:41 by lucocozz         ###   ########.fr       */
+/*   Updated: 2022/11/25 16:32:26 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,11 @@
 # define ALIGNMENT 8
 # define ALIGN(size) (((size) + (ALIGNMENT - 1)) & ~(ALIGNMENT - 1))
 
-// TODO: fix size
-																			// if getpagesize() == 4096
-# define TINY_PAGE_SIZE (size_t)(8 * getpagesize()) 						// 32768
-# define TINY_BLOCK_SIZE (size_t)(TINY_PAGE_SIZE / 128)						// 256
-# define SMALL_PAGE_SIZE (size_t)(TINY_BLOCK_SIZE * getpagesize())			// 1048576
-# define SMALL_BLOCK_SIZE (size_t)(SMALL_PAGE_SIZE / 128)					// 8192
+															// if getpagesize() == 4096
+# define TINY_PAGE_SIZE (size_t)(10 * getpagesize()) 		// 40960
+# define TINY_BLOCK_SIZE (size_t)(TINY_PAGE_SIZE / 128)		// 320 (ALIGN(256 + sizeof(t_block)) == 307) 
+# define SMALL_PAGE_SIZE (size_t)(34 * getpagesize())		// 139264
+# define SMALL_BLOCK_SIZE (size_t)(SMALL_PAGE_SIZE / 128)	// 1088 (ALIGN(1024 + sizeof(t_block)) == 1072)
 
 typedef struct s_block {
 	size_t			size;
