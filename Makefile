@@ -6,7 +6,7 @@
 #    By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/30 15:23:20 by lucocozz          #+#    #+#              #
-#    Updated: 2022/11/24 18:27:05 by lucocozz         ###   ########.fr        #
+#    Updated: 2022/11/28 14:46:39 by lucocozz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,7 @@ vpath %.c	$(addprefix $(SRCS_DIR), /.)
 all:
 	$(foreach LIB, ${LIBS}, ${MAKE} -C lib${LIB} ;)
 	$(MAKE) $(NAME)
+	$(CC) $(CFLAGS) $(CXXFLAGS) $(LDFLAGS) -lpthread -o tests main.c libft_malloc.so
 
 scan:
 	scan-build-12 $(MAKE)
@@ -80,6 +81,7 @@ clean:
 
 fclean: clean
 	$(RM) $(NAME) $(foreach LIB, $(LIBS), lib$(LIB)/lib$(LIB).a) libft_malloc.so
+	$(RM) tests
 
 re: fclean all
 
