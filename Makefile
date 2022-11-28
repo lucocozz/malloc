@@ -6,7 +6,7 @@
 #    By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/30 15:23:20 by lucocozz          #+#    #+#              #
-#    Updated: 2022/11/28 14:46:39 by lucocozz         ###   ########.fr        #
+#    Updated: 2022/11/28 14:54:51 by lucocozz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,7 +81,7 @@ clean:
 
 fclean: clean
 	$(RM) $(NAME) $(foreach LIB, $(LIBS), lib$(LIB)/lib$(LIB).a) libft_malloc.so
-	$(RM) tests
+	$(RM) tests tests.d
 
 re: fclean all
 
