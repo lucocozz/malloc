@@ -6,11 +6,11 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 18:33:54 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/11/23 21:27:44 by lucocozz         ###   ########.fr       */
+/*   Updated: 2022/12/23 21:54:52 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/malloc.h"
+#include "../includes/libft.h"
 
 static int	ft_is_alnum(char c)
 {
