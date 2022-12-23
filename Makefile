@@ -6,7 +6,7 @@
 #    By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/30 15:23:20 by lucocozz          #+#    #+#              #
-#    Updated: 2022/11/24 18:27:05 by lucocozz         ###   ########.fr        #
+#    Updated: 2022/12/03 19:33:06 by lucocozz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ SRCS =	malloc.c				\
 		show_alloc_mem.c		\
 		show_alloc_mem_ex.c		\
 		show_alloc_mem_freed.c	\
+		show_page_num.c			\
 		libft.c
 
 OBJS = $(SRCS:%.c=$(OBJS_DIR)/%.o)
@@ -51,6 +52,8 @@ vpath %.c	$(addprefix $(SRCS_DIR), /.)
 all:
 	$(foreach LIB, ${LIBS}, ${MAKE} -C lib${LIB} ;)
 	$(MAKE) $(NAME)
+	$(CC) $(CFLAGS) $(CXXFLAGS) $(LDFLAGS) -lpthread -o tests main.c libft_malloc.so
+	mv tests.d .objs/
 
 scan:
 	scan-build-12 $(MAKE)
@@ -80,7 +83,16 @@ clean:
 
 fclean: clean
 	$(RM) $(NAME) $(foreach LIB, $(LIBS), lib$(LIB)/lib$(LIB).a) libft_malloc.so
+	$(RM) tests tests.d
 
 re: fclean all
 
-.PHONY: all clean fclean re
+test:
+	clang mains/test$(main).c -o test$(main)
+	clang mains/test$(main).c -D LIBFT libft_malloc.so -o test$(main)_libft
+	/usr/bin/time -v ./test$(main)
+	/usr/bin/time -v ./test$(main)_libft
+	rm test$(main)
+	rm test$(main)_libft
+
+.PHONY: all clean fclean re scan test

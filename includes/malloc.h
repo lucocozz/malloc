@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 15:28:58 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/12/23 21:53:59 by lucocozz         ###   ########.fr       */
+/*   Updated: 2022/12/23 22:23:33 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,6 @@ void	*realloc(void *ptr, size_t size);
 void	show_alloc_mem(void);
 void	show_alloc_mem_ex(void);
 void	show_alloc_mem_freed(void);
+void	show_page_num(void);
 
 #endif
