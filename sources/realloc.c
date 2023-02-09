@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:41 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/02/09 16:10:16 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/02/09 19:19:05 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ static int __block_fragmentation(t_block *block, size_t size)
 			next->size = block->size - size;
 			next->next = block->next;
 			next->prev = block;
+			ft_memcpy(next->canary, CANARY, CANARY_SIZE);
 			block->next = next;
 			page->block_count++;
 			page->freed_count++;

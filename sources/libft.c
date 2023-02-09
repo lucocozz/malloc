@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 18:33:54 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/02/09 16:46:10 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/02/09 18:58:55 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,4 +108,16 @@ void	ft_bzero(void *mem, size_t n)
 	ptr = (unsigned char *)mem;
 	for (i = 0; i < n; ++i)
 		ptr[i] = 0;
+}
+
+void	*ft_memcpy(void *dst, void const *src, size_t n)
+{
+	unsigned char		*tmp;
+
+	if (dst == NULL || src == NULL)
+		return (NULL);
+	tmp = dst;
+	while (n--)
+		*tmp++ = *(unsigned char *)src++;
+	return (dst);
 }

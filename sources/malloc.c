@@ -6,10 +6,11 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:44 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/02/09 16:07:45 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/02/09 21:04:00 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include "../includes/malloc.h"
 
 t_heap g_heap = {
@@ -126,10 +127,10 @@ static t_index	__find_first_fit(t_binding *binder, size_t alloc_size)
 static int	__block_fragmentation(t_block *block)
 {
 	t_page	*parent = block->parent;
-	t_block	*next_block = block + block->size;
+	t_block	*next_block = (void *)block + block->size;
 
 	if (block->next != NULL && block->next != next_block &&
-		(size_t)(block->next - next_block) >= sizeof(t_block) + ALIGNMENT) // doesn't fragment if space is too small
+		(size_t)(next_block - block->next) >= sizeof(t_block) + ALIGNMENT) // doesn't fragment if space is too small
 	{
 		next_block->next = block->next;
 		block->next->prev = next_block;
@@ -151,6 +152,7 @@ static void	*__do_alloc(t_binding *binder, size_t alloc_size)
 	index = __find_first_fit(binder, alloc_size);
 	if (index.page == NULL)
 		return (NULL);
+	ft_memcpy(index.block->canary, CANARY, CANARY_SIZE);
 	index.block->allocated = true;
 	index.block->size = alloc_size;
 	index.block->parent = index.page;
@@ -175,6 +177,8 @@ void	*malloc(size_t size)
 	else
 		alloc = __do_alloc(&g_heap.large, alloc_size);
 
+	// ft_putstr("\033[0;32menter segfault\033[0m\n");
+	// ft_putstr("\033[0;31mTEST SEGFAULT\033[0m\n");
 	pthread_mutex_unlock(&g_heap_mutex);
 	return (alloc);
 }

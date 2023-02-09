@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 15:28:58 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/02/09 16:46:51 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/02/09 19:00:15 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include <sys/types.h>
 # include "libft.h"
 
+# define CANARY "lucocozz_malloc"
+# define CANARY_SIZE 16
 # define ALIGNMENT 8
 # define ALIGN(size) (((size) + (ALIGNMENT - 1)) & ~(ALIGNMENT - 1))
 
@@ -32,6 +34,7 @@
 # define SMALL_BLOCK_SIZE (size_t)(SMALL_PAGE_SIZE / 128)	// 1088 (ALIGN(1024 + sizeof(t_block)) == 1072)
 
 typedef struct s_block {
+	char			canary[CANARY_SIZE];
 	size_t			size;
 	bool			allocated;
 	struct s_page	*parent;
