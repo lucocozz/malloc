@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 18:33:54 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/12/23 21:54:52 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/02/09 16:46:10 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,4 +98,14 @@ void	ft_print_address(void *ptr)
 
 	ft_putstr("0x");
 	ft_putnbr_base(address, "0123456789ABCDEF");
+}
+
+void	ft_bzero(void *mem, size_t n)
+{
+	size_t			i;
+	unsigned char	*ptr;
+
+	ptr = (unsigned char *)mem;
+	for (i = 0; i < n; ++i)
+		ptr[i] = 0;
 }

@@ -1,27 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
+/*   calloc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/23 21:53:12 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/02/09 16:46:28 by lucocozz         ###   ########.fr       */
+/*   Created: 2023/02/09 16:41:48 by lucocozz          #+#    #+#             */
+/*   Updated: 2023/02/09 16:48:41 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
+#include "../includes/malloc.h"
 
-# include <unistd.h>
-# include <sys/types.h>
+void	*calloc(size_t nmemb, size_t size)
+{
+	size_t	mem_size = nmemb * size;
+	void	*ptr = malloc(mem_size);
 
-int		ft_strlen(char *str);
-void	ft_putnbr_base(long nbr, char *base);
-void	ft_putnbr(long nbr);
-void	ft_putstr(const char *str);
-void	ft_putchar(const char c);
-void	ft_print_address(void *ptr);
-void	ft_bzero(void *mem, size_t n);
-
-#endif
+	if (ptr == NULL)
+		return (NULL);
+	ft_bzero(ptr, mem_size);
+	return (ptr);
+}

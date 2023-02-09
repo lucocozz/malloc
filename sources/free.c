@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:48 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/11/25 17:03:05 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/02/09 15:57:05 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	free(void *ptr)
 {
 	t_block	*block;
 	t_page	*page;
-	
+
 	if (ptr == NULL)
 		return;
 	pthread_mutex_lock(&g_heap_mutex);

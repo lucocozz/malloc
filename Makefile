@@ -6,7 +6,7 @@
 #    By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/30 15:23:20 by lucocozz          #+#    #+#              #
-#    Updated: 2022/12/03 19:33:06 by lucocozz         ###   ########.fr        #
+#    Updated: 2023/02/09 16:48:25 by lucocozz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ NAME = libft_malloc_$(HOSTTYPE).so
 SRCS =	malloc.c				\
 		free.c					\
 		realloc.c				\
+		calloc.c				\
 		show_alloc_mem.c		\
 		show_alloc_mem_ex.c		\
 		show_alloc_mem_freed.c	\
@@ -40,7 +41,7 @@ RM = rm -f
 MKDIR = mkdir -p
 DEBUG = off
 
-CFLAGS = -MMD -Wall -Wextra -Werror -std=gnu99
+CFLAGS = -MMD -Wall -Wextra -Werror -std=gnu99 -fPIC
 CXXFLAGS = $(INCLUDES_DIR:%=-I %)
 ifeq ($(DEBUG), on)
 	CXXFLAGS += -g3
@@ -59,7 +60,7 @@ scan:
 	scan-build-12 $(MAKE)
 
 $(NAME): $(OBJS) | $(LIBS:%=lib%.a)
-	ar -rcs $(NAME) $(OBJS)
+	$(CC) -shared -o $(NAME) $(OBJS)
 	$(RM) libft_malloc.so
 	ln -s $(NAME) libft_malloc.so
 
