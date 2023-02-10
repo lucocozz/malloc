@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:44 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/02/09 21:04:00 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/02/10 00:37:55 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,8 +177,6 @@ void	*malloc(size_t size)
 	else
 		alloc = __do_alloc(&g_heap.large, alloc_size);
 
-	// ft_putstr("\033[0;32menter segfault\033[0m\n");
-	// ft_putstr("\033[0;31mTEST SEGFAULT\033[0m\n");
 	pthread_mutex_unlock(&g_heap_mutex);
 	return (alloc);
 }

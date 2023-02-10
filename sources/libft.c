@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 18:33:54 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/02/09 18:58:55 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/02/10 02:50:40 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,14 +110,30 @@ void	ft_bzero(void *mem, size_t n)
 		ptr[i] = 0;
 }
 
-void	*ft_memcpy(void *dst, void const *src, size_t n)
+void	*ft_memcpy(void *dest, void const *src, size_t n)
 {
-	unsigned char		*tmp;
+	char		*d = dest;
+	const char	*s = src;
 
-	if (dst == NULL || src == NULL)
-		return (NULL);
-	tmp = dst;
 	while (n--)
-		*tmp++ = *(unsigned char *)src++;
-	return (dst);
+		*d++ = *s++;
+	return (dest);
+}
+
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	int	i = 0;
+
+	while (s1[i] == s2[i] && s1[i] && s2[i])
+		i++;
+	return (s1[i] - s2[i]);
+}
+
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	uint	i = 0;
+
+	while (s1[i] == s2[i] && s1[i] && s2[i] && n--)
+		i++;
+	return (s1[i] - s2[i]);
 }

@@ -6,7 +6,7 @@
 #    By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/30 15:23:20 by lucocozz          #+#    #+#              #
-#    Updated: 2023/02/09 17:57:24 by lucocozz         ###   ########.fr        #
+#    Updated: 2023/02/10 01:37:12 by lucocozz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRCS =	malloc.c				\
 		free.c					\
 		realloc.c				\
 		calloc.c				\
+		print_memory.c			\
 		show_alloc_mem.c		\
 		show_alloc_mem_ex.c		\
 		show_alloc_mem_freed.c	\

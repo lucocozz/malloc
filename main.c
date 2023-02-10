@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 22:09:48 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/11/25 18:40:15 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/02/10 00:20:30 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,7 @@ static void	__test_realloc(void)
 	strcpy(ptr, "hello word test toto titi tata");
 	show_alloc_mem_ex();
 
+	ft_putstr("APRES CA\n");
 	ptr = realloc(ptr, 64);
 	show_alloc_mem_ex();
 

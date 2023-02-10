@@ -6,69 +6,21 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 19:42:50 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/02/09 20:31:46 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/02/10 01:38:19 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/malloc.h"
-
-static void	ft_hex(long nb)
-{
-	const char hex[] = "0123456789abcdef";
-
-	if (nb > 0) {
-		ft_hex(nb / 16);
-		ft_putchar(hex[nb % 16]);
-	}
-}
-
-static void	ft_print_hex(char *mem, uint offset)
-{
-	for (uint i = offset; i < offset + 16; i++)
-	{
-		if (mem[i])
-			ft_hex(mem[i]);
-		else
-			ft_putstr("  ");
-		if (i % 2 != 0)
-			ft_putchar(' ');
-	}
-}
-
-static void	ft_print_ascii(char *mem, uint offset)
-{
-	for (uint i = offset; i < offset + 16 && mem[i]; i++)
-	{
-		if (mem[i] >= 32 && mem[i] <= 126)
-			ft_putchar(mem[i]);
-		else
-			ft_putchar('.');
-	}
-}
-
-static void	ft_print_memory(void *address, uint size)
-{
-	char	*mem = (char *)address;
-
-	for (uint i = 0; i < size; i += 16)
-	{
-		ft_putstr("    ");
-		ft_print_address((void *)&mem[i]);
-		ft_putstr("  ");
-		ft_print_hex(mem, i);
-		ft_putchar(' ');
-		ft_print_ascii(mem, i);
-		ft_putchar('\n');
-	}
-}
 
 static size_t	__print_blocks(t_page *page)
 {
 	size_t	total = 0;
 	t_block	*block = page->blocks;
 
-	for (uint i = 0; i < page->block_count; i++) {
-		if (block->allocated == true) {
+	for (uint i = 0; i < page->block_count; i++)
+	{
+		if (block->allocated == true)
+		{
 			ft_putstr("  ");
 			ft_print_address(((void *)block + sizeof(t_page)));
 			ft_putstr(" - ");
@@ -76,7 +28,7 @@ static size_t	__print_blocks(t_page *page)
 			ft_putstr(" : ");
 			ft_putnbr(block->size - sizeof(t_block));
 			ft_putstr(" bytes\n");
-			ft_print_memory((void *)block + sizeof(t_block), block->size - sizeof(t_block));
+			print_memory((void *)block + sizeof(t_block), block->size - sizeof(t_block));
 			total += (block->size - sizeof(t_block));
 		}
 		block = block->next;

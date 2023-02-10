@@ -6,21 +6,11 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:41 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/02/09 19:19:05 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/02/10 00:31:16 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/malloc.h"
-
-static void	*__memcpy(void *dest, void const *src, size_t n)
-{
-	char		*d = dest;
-	const char	*s = src;
-
-	while (n--)
-		*d++ = *s++;
-	return (dest);
-}
 
 static int	__block_defragmentation(t_block *block, size_t size)
 {
@@ -118,7 +108,7 @@ void	*realloc(void *ptr, size_t size)
 	new = malloc(size);
 	if (new == NULL)
 		return (NULL);
-	__memcpy(new, ptr, block->size);
+	ft_memcpy(new, ptr, block->size);
 	free(ptr);
 	return (new);
 }
