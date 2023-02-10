@@ -6,7 +6,7 @@
 #    By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/30 15:23:20 by lucocozz          #+#    #+#              #
-#    Updated: 2023/02/10 01:37:12 by lucocozz         ###   ########.fr        #
+#    Updated: 2023/02/10 18:11:03 by lucocozz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ SRCS =	malloc.c				\
 		calloc.c				\
 		print_memory.c			\
 		show_alloc_mem.c		\
-		show_alloc_mem_ex.c		\
+		show_alloc_mem_hex.c		\
 		show_alloc_mem_freed.c	\
 		show_page_num.c			\
 		libft.c
@@ -54,7 +54,7 @@ vpath %.c	$(addprefix $(SRCS_DIR), /.)
 all:
 	$(foreach LIB, ${LIBS}, ${MAKE} -C lib${LIB} ;)
 	$(MAKE) $(NAME)
-	$(CC) $(CFLAGS) $(CXXFLAGS) $(LDFLAGS) -lpthread -o tests main.c libft_malloc.so
+	$(CC) $(CFLAGS) $(CXXFLAGS) $(LDFLAGS) -lpthread libft_malloc.so -o tests main.c
 	mv tests.d .objs/
 
 scan:

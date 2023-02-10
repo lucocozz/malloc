@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:48 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/02/10 02:50:16 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/02/10 20:10:42 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,15 +80,10 @@ void	free(void *ptr)
 	t_page	*page;
 	t_block	*block = ptr - sizeof(t_block);
 
-	ft_putstr("\033[0;32menter segfault\033[0m\n");
 	if (ptr == NULL)
 		return;
-
-	// block = ptr - sizeof(t_block);
-	print_memory(block, CANARY_SIZE);
-	if (ft_strncmp((char *)block, CANARY, CANARY_SIZE) != 0)
+	if (ft_memcmp(block, CANARY, CANARY_SIZE) != 0)
 		return;
-	ft_putstr("\033[0;31mTEST SEGFAULT\033[0m\n");
 
 	pthread_mutex_lock(&g_heap_mutex);
 

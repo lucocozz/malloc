@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 22:09:48 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/02/10 00:20:30 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/02/10 20:10:33 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	__simple_alloc_free(void)
 	if (ptr != NULL)
 	{
 		strcpy(ptr, "hello world\n\t\r\v");
-		show_alloc_mem_ex();
+		show_alloc_mem_hex();
 		free(ptr);
 		show_alloc_mem();
 	}
@@ -160,15 +160,14 @@ static void	__test_realloc(void)
 
 	void	*ptr = malloc(32);
 
-	strcpy(ptr, "hello word test toto titi tata");
-	show_alloc_mem_ex();
+	memcpy(ptr, "hello word test toto", 21);
+	show_alloc_mem_hex();
 
-	ft_putstr("APRES CA\n");
 	ptr = realloc(ptr, 64);
-	show_alloc_mem_ex();
+	show_alloc_mem_hex();
 
 	ptr = realloc(ptr, 8);
-	show_alloc_mem_ex();
+	show_alloc_mem_hex();
 
 	free(ptr);
 	show_alloc_mem_freed();

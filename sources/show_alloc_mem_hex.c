@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   show_alloc_mem_ex.c                                :+:      :+:    :+:   */
+/*   show_alloc_mem_hex.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -52,7 +52,7 @@ static size_t	__print_pages(t_binding *binder, const char *type)
 	return (total);
 }
 
-void	show_alloc_mem_ex(void)
+void	show_alloc_mem_hex(void)
 {
 	size_t	total = 0;
 

@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 18:33:54 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/02/10 02:50:40 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/02/10 16:52:17 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,20 +120,18 @@ void	*ft_memcpy(void *dest, void const *src, size_t n)
 	return (dest);
 }
 
-int	ft_strcmp(const char *s1, const char *s2)
+int ft_memcmp(const void *ptr1, const void *ptr2, size_t n)
 {
-	int	i = 0;
+    u_char u1;
+	u_char u2;
 
-	while (s1[i] == s2[i] && s1[i] && s2[i])
-		i++;
-	return (s1[i] - s2[i]);
-}
+    for ( ; n--; ptr1++, ptr2++)
+	{
+        u1 = *(u_char *)ptr1;
+        u2 = *(u_char *)ptr2;
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
-{
-	uint	i = 0;
-
-	while (s1[i] == s2[i] && s1[i] && s2[i] && n--)
-		i++;
-	return (s1[i] - s2[i]);
+        if (u1 != u2)
+            return (u1 - u2);
+    }
+    return (0);
 }

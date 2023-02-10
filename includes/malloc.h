@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 15:28:58 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/02/10 02:48:58 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/02/10 16:57:37 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	*malloc(size_t size);
 void	*realloc(void *ptr, size_t size);
 void	*calloc(size_t nmemb, size_t size);
 void	show_alloc_mem(void);
-void	show_alloc_mem_ex(void);
+void	show_alloc_mem_hex(void);
 void	show_alloc_mem_freed(void);
 void	show_page_num(void);
 void	print_memory(void *address, uint size);
