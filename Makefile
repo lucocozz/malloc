@@ -6,7 +6,7 @@
 #    By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/30 15:23:20 by lucocozz          #+#    #+#              #
-#    Updated: 2023/02/10 18:11:03 by lucocozz         ###   ########.fr        #
+#    Updated: 2023/03/18 21:58:50 by lucocozz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -93,7 +93,7 @@ test:
 	clang mains/test$(main).c -o test$(main)
 	clang mains/test$(main).c -D LIBFT libft_malloc.so -o test$(main)_libft
 	/usr/bin/time -v ./test$(main)
-	/usr/bin/time -v ./test$(main)_libft
+	./run.sh /usr/bin/time -v ./test$(main)_libft
 	rm test$(main)
 	rm test$(main)_libft
 
