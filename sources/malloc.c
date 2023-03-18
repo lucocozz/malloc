@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:44 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/02/10 20:11:06 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/02/10 22:01:41 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,11 +166,9 @@ void	*malloc(size_t size)
 	void	*alloc;
 	size_t	alloc_size = ALIGN(size + sizeof(t_block));
 
-	// ft_putstr("\033[0;32menter segfault\033[0m\n");
 	if (size == 0)
 		return (NULL);
 	pthread_mutex_lock(&g_heap_mutex);
-	// ft_putstr("\033[0;31mTEST SEGFAULT\033[0m\n");
 
 	if (alloc_size <= TINY_BLOCK_SIZE)
 		alloc = __do_alloc(&g_heap.tiny, alloc_size);

@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:41 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/02/10 20:07:47 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/03/18 13:37:22 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	__clean_fragmentation(t_block *block)
 	t_block	*next;
 	t_page	*page;
 
-	if (block != NULL && block->next->allocated == false) {
+	if (block != NULL && block->next != NULL && block->next->allocated == false) {
 		page = block->parent;
 		next = block->next;
 		block->size += next->size;
@@ -77,6 +77,8 @@ static int __block_fragmentation(t_block *block, size_t size)
 
 static int	__check_defragmentation(t_block *block, size_t size)
 {
+	if (block == NULL)
+		return (0);
 	if (size == block->size)
 		return (1);
 	else if (size > block->size)
@@ -89,7 +91,7 @@ void	*realloc(void *ptr, size_t size)
 {
 	void	*new;
 	int		check;
-	t_block	*block = ptr - sizeof(t_block);
+	t_block	*block;
 
 	if (size == 0) {
 		if (ptr != NULL)
@@ -100,6 +102,7 @@ void	*realloc(void *ptr, size_t size)
 		return (malloc(size));
 
 	pthread_mutex_lock(&g_heap_mutex);
+	block = ptr - sizeof(t_block);
 	check = __check_defragmentation(block, size + sizeof(t_block));
 	pthread_mutex_unlock(&g_heap_mutex);
 
@@ -109,7 +112,8 @@ void	*realloc(void *ptr, size_t size)
 	new = malloc(size);
 	if (new == NULL)
 		return (NULL);
-	ft_memcpy(new, ptr, block->size - sizeof(t_block));
+	if (block != NULL)
+		ft_memcpy(new, ptr, block->size - sizeof(t_block));
 	free(ptr);
 	return (new);
 }

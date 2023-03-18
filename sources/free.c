@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:48 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/02/10 20:10:42 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/03/18 13:52:11 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ static void	__clean_last_block(t_block *block)
 		page->used_size -= block->size;
 		page->block_count--;
 		page->freed_count--;
-		prev->next = NULL;
+		if (prev != NULL)
+			prev->next = NULL;
 	}
 }
 
@@ -41,11 +42,11 @@ static void	__block_defragmentation(t_page *page, t_block *block)
 	t_block	*next = NULL;
 
 	prev = block->prev;
-	if (prev != NULL && prev->allocated == false)
+	if (prev != NULL && prev->allocated == false) {
 		__merge_blocks(page, prev, block);
-	next = block->next;
-	if (prev != NULL && prev->allocated == false)
 		block = prev;
+	}
+	next = block->next;
 	if (next != NULL && next->allocated == false)
 		__merge_blocks(page, block, next);
 	__clean_last_block(block);
