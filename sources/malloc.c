@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:44 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/02/10 22:01:41 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/03/19 19:30:29 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ pthread_mutex_t g_heap_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 static size_t	__page_size_from_alloc_size(size_t alloc_size)
 {
-	if (alloc_size <= TINY_BLOCK_SIZE)
+	if (alloc_size <= TINY_BLOCK_SIZE_ALIGNED)
 		return (TINY_PAGE_SIZE);
-	else if (alloc_size <= SMALL_BLOCK_SIZE)
+	else if (alloc_size <= SMALL_BLOCK_SIZE_ALIGNED)
 		return (SMALL_PAGE_SIZE);
 	else
 		return (alloc_size);
@@ -170,9 +170,9 @@ void	*malloc(size_t size)
 		return (NULL);
 	pthread_mutex_lock(&g_heap_mutex);
 
-	if (alloc_size <= TINY_BLOCK_SIZE)
+	if (alloc_size <= TINY_BLOCK_SIZE_ALIGNED)
 		alloc = __do_alloc(&g_heap.tiny, alloc_size);
-	else if (alloc_size <= SMALL_BLOCK_SIZE)
+	else if (alloc_size <= SMALL_BLOCK_SIZE_ALIGNED)
 		alloc = __do_alloc(&g_heap.small, alloc_size);
 	else
 		alloc = __do_alloc(&g_heap.large, alloc_size);

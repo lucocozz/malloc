@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:41 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/03/18 13:37:22 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/03/19 21:10:58 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ void	*realloc(void *ptr, size_t size)
 	new = malloc(size);
 	if (new == NULL)
 		return (NULL);
+
 	if (block != NULL)
 		ft_memcpy(new, ptr, block->size - sizeof(t_block));
 	free(ptr);

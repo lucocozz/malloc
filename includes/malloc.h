@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 15:28:58 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/02/10 16:57:37 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/03/19 21:07:57 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,19 @@
 # define ALIGNMENT 8
 # define ALIGN(size) (((size) + (ALIGNMENT - 1)) & ~(ALIGNMENT - 1))
 
-															// if getpagesize() == 4096
-# define TINY_PAGE_SIZE (size_t)(10 * getpagesize()) 		// 40960
-# define TINY_BLOCK_SIZE (size_t)(TINY_PAGE_SIZE / 128)		// 320 (ALIGN(256 + sizeof(t_block)) == 307) 
-# define SMALL_PAGE_SIZE (size_t)(34 * getpagesize())		// 139264
-# define SMALL_BLOCK_SIZE (size_t)(SMALL_PAGE_SIZE / 128)	// 1088 (ALIGN(1024 + sizeof(t_block)) == 1072)
+# define MIN_PAGE_BLOCKS 128
+
+// TINY
+# define TINY_BLOCK_SIZE 256
+# define TINY_BLOCK_SIZE_ALIGNED ALIGN(TINY_BLOCK_SIZE + sizeof(t_block))
+# define TINY_PAGE_SIZE ((MIN_PAGE_BLOCKS * TINY_BLOCK_SIZE_ALIGNED + getpagesize() - 1) & ~(getpagesize() - 1))
+
+// SMALL
+# define SMALL_BLOCK_SIZE 2048
+# define SMALL_BLOCK_SIZE_ALIGNED ALIGN(SMALL_BLOCK_SIZE + sizeof(t_block))
+# define SMALL_PAGE_SIZE ((MIN_PAGE_BLOCKS * SMALL_BLOCK_SIZE_ALIGNED + getpagesize() - 1) & ~(getpagesize() - 1))
+
+
 
 typedef struct s_block {
 	char			canary[CANARY_SIZE];
