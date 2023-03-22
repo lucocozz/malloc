@@ -22,13 +22,13 @@ static size_t	__print_blocks(t_page *page)
 		if (block->allocated == true)
 		{
 			ft_putstr("  ");
-			ft_print_address(((void *)block + HEADER_PAGE_SIZE));
+			ft_print_address(BLOCK_HEADER_SHIFT(block));
 			ft_putstr(" - ");
 			ft_print_address(((void *)block + block->size));
 			ft_putstr(" : ");
 			ft_putnbr(block->size - sizeof(t_block));
 			ft_putstr(" bytes\n");
-			print_memory((void *)block + sizeof(t_block), block->size - sizeof(t_block));
+			print_memory(BLOCK_HEADER_SHIFT(block), block->size - sizeof(t_block));
 			total += (block->size - sizeof(t_block));
 		}
 		block = block->next;

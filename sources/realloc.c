@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:41 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/03/22 17:48:30 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/03/22 21:22:07 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ static int	__block_defragmentation(t_block *block, size_t size)
 	{
 		block->size += next->size;
 		block->next = next->next;
-		next->prev = block;
 		page->block_count--;
 		page->freed_count--;
 		return (1);
@@ -31,12 +30,11 @@ static int	__block_defragmentation(t_block *block, size_t size)
 
 static void	__clean_fragmentation(t_block *block)
 {
-	t_block	*next;
-	t_page	*page;
+	if (block != NULL && block->next != NULL && block->next->allocated == false)
+	{
+		t_page	*page = block->parent;
+		t_block	*next = block->next;
 
-	if (block != NULL && block->next != NULL && block->next->allocated == false) {
-		page = block->parent;
-		next = block->next;
 		block->size += next->size;
 		block->next = next->next;
 		if (next->next != NULL)
@@ -48,26 +46,26 @@ static void	__clean_fragmentation(t_block *block)
 
 static int __block_fragmentation(t_block *block, size_t size)
 {
-	t_block	*next;
+	t_block	*fragment;
 	t_page	*page = block->parent;
 
-	if (block->size - size > sizeof(t_block) + ALIGNMENT)
+	if (block->size > sizeof(t_block) + ALIGNMENT)
 	{
 		if (block->next != NULL)
 		{
-			next = (void *)block + size;
-			next->allocated = false;
-			next->parent = page;
-			next->size = block->size - size;
-			next->next = block->next;
-			next->prev = block;
-			ft_memcpy(next->canary, CANARY, CANARY_SIZE);
-			block->next = next;
+			fragment = BLOCK_SHIFT(block, size);
+			fragment->allocated = false;
+			fragment->parent = page;
+			fragment->size = block->size - size;
+			fragment->next = block->next;
+			fragment->prev = block;
+			ft_memcpy(fragment->canary, CANARY, CANARY_SIZE);
+			block->next = fragment;
 			page->block_count++;
 			page->freed_count++;
 		}
 		else
-			page->used_size = block->size - size;
+			page->used_size -= (block->size - size);
 		block->size = size;
 		__clean_fragmentation(block->next);
 		return (1);
@@ -77,8 +75,6 @@ static int __block_fragmentation(t_block *block, size_t size)
 
 static int	__check_defragmentation(t_block *block, size_t size)
 {
-	if (block == NULL)
-		return (0);
 	if (size == block->size)
 		return (1);
 	else if (size > block->size)
@@ -92,7 +88,6 @@ void	*realloc(void *ptr, size_t size)
 	void	*new;
 	int		check;
 	t_block	*block;
-	size_t	new_block_size = ALIGN(size + sizeof(t_block));
 
 	if (size == 0) {
 		if (ptr != NULL)
@@ -103,8 +98,8 @@ void	*realloc(void *ptr, size_t size)
 		return (malloc(size));
 
 	pthread_mutex_lock(&g_heap_mutex);
-	block = ptr - sizeof(t_block);
-	check = __check_defragmentation(block, new_block_size);
+	block = BLOCK_HEADER_SHIFT_BACK(ptr);
+	check = __check_defragmentation(block, BLOCK_SIZE(size));
 	pthread_mutex_unlock(&g_heap_mutex);
 
 	if (check == 1)
@@ -114,12 +109,18 @@ void	*realloc(void *ptr, size_t size)
 	if (new == NULL)
 		return (NULL);
 
+	pthread_mutex_lock(&g_heap_mutex);
+	t_block	*new_block = BLOCK_HEADER_SHIFT_BACK(new);
+	t_page	*page = new_block->parent;
+	(void)page;
+
 	if (block != NULL) {
-		if (new_block_size < block->size)
+		if (BLOCK_SIZE(size) < block->size)
 			ft_memcpy(new, ptr, size);
 		else
 			ft_memcpy(new, ptr, block->size - sizeof(t_block));
 	}
+	pthread_mutex_unlock(&g_heap_mutex);
 	free(ptr);
 	return (new);
 }
