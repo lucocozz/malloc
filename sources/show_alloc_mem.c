@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 19:42:50 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/11/24 18:26:49 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/03/21 22:04:30 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static size_t	__print_blocks(t_page *page)
 	for (uint i = 0; i < page->block_count; i++) {
 		if (block->allocated == true) {
 			ft_putstr("  ");
-			ft_print_address(((void *)block + sizeof(t_page)));
+			ft_print_address(((void *)block + HEADER_PAGE_SIZE));
 			ft_putstr(" - ");
 			ft_print_address(((void *)block + block->size));
 			ft_putstr(" : ");

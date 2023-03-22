@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 18:33:54 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/02/10 16:52:17 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/03/22 18:14:52 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,12 @@ void	*ft_memcpy(void *dest, void const *src, size_t n)
 	char		*d = dest;
 	const char	*s = src;
 
-	while (n--)
-		*d++ = *s++;
+	if (dest != NULL && src != NULL) {
+		while (n) {
+			*(d++) = *(s++);
+			--n;
+		}
+	}
 	return (dest);
 }
 

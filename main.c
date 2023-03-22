@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 22:09:48 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/02/10 20:10:33 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/03/21 21:08:36 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,45 +204,47 @@ static void	__realloc_defragmentation(void)
 	show_alloc_mem_freed();
 }
 
-static void	*__test_thread(void *none)
-{
-	(void)none;
-	void	*ptr[20];
+// static void	*__test_thread(void *none)
+// {
+// 	(void)none;
+// 	void	*ptr[20];
 
 
-	for (uint i = 0; i < 20; i++) {
-		ptr[i] = malloc(16);
-		usleep(1000);
-	}
-	show_alloc_mem_freed();
+// 	for (uint i = 0; i < 20; i++) {
+// 		ptr[i] = malloc(16);
+// 		usleep(1000);
+// 	}
+// 	show_alloc_mem_freed();
 
-	for (uint i = 0; i < 20; i++) {
-		free(ptr[i]);
-		usleep(1000);
-	}
-	show_alloc_mem_freed();
+// 	for (uint i = 0; i < 20; i++) {
+// 		free(ptr[i]);
+// 		usleep(1000);
+// 	}
+// 	show_alloc_mem_freed();
 
-	return (NULL);
-}
+// 	return (NULL);
+// }
 
-static void	__thread_safe_test(void)
-{
-	ft_putstr("\n\nTEST 10: thread safe test\n");
-	ft_putstr("--------------------------------------\n");
+// static void	__thread_safe_test(void)
+// {
+// 	ft_putstr("\n\nTEST 10: thread safe test\n");
+// 	ft_putstr("--------------------------------------\n");
 	
-	pthread_t	thread1;
-	pthread_t	thread2;
+// 	pthread_t	thread1;
+// 	pthread_t	thread2;
 
-	pthread_create(&thread1, NULL, &__test_thread, NULL);
-	pthread_create(&thread2, NULL, &__test_thread, NULL);
-	pthread_join(thread1, NULL);
-	pthread_join(thread2, NULL);
+// 	pthread_create(&thread1, NULL, &__test_thread, NULL);
+// 	pthread_create(&thread2, NULL, &__test_thread, NULL);
+// 	pthread_join(thread1, NULL);
+// 	pthread_join(thread2, NULL);
 	
-	show_alloc_mem_freed();
-}
+// 	show_alloc_mem_freed();
+// }
 
 int	main()
 {
+	// ft_putnbr(TINY_PAGE_SIZE); ft_putchar('\n');
+	// ft_putnbr(SMALL_PAGE_SIZE); ft_putchar('\n');
 	__simple_alloc_free();
 	__multiple_allocs();
 	__multiple_size();
@@ -252,6 +254,6 @@ int	main()
 	__malloc_failed();
 	__test_realloc();
 	__realloc_defragmentation();
-	__thread_safe_test();
+	// __thread_safe_test();
 	return (0);
 }

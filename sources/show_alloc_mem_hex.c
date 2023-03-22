@@ -22,7 +22,7 @@ static size_t	__print_blocks(t_page *page)
 		if (block->allocated == true)
 		{
 			ft_putstr("  ");
-			ft_print_address(((void *)block + sizeof(t_page)));
+			ft_print_address(((void *)block + HEADER_PAGE_SIZE));
 			ft_putstr(" - ");
 			ft_print_address(((void *)block + block->size));
 			ft_putstr(" : ");

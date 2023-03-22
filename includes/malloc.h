@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 15:28:58 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/03/19 21:07:57 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/03/22 17:21:47 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,25 @@
 # include <sys/types.h>
 # include "libft.h"
 
+# define MAP_UNINITIALIZED 0x4000000
+
 # define CANARY "lucocozz_malloc"
 # define CANARY_SIZE 16
 # define ALIGNMENT 8
 # define ALIGN(size) (((size) + (ALIGNMENT - 1)) & ~(ALIGNMENT - 1))
 
 # define MIN_PAGE_BLOCKS 128
+# define HEADER_PAGE_SIZE sizeof(t_page)
 
 // TINY
 # define TINY_BLOCK_SIZE 256
 # define TINY_BLOCK_SIZE_ALIGNED ALIGN(TINY_BLOCK_SIZE + sizeof(t_block))
-# define TINY_PAGE_SIZE ((MIN_PAGE_BLOCKS * TINY_BLOCK_SIZE_ALIGNED + getpagesize() - 1) & ~(getpagesize() - 1))
+# define TINY_PAGE_SIZE (((MIN_PAGE_BLOCKS * TINY_BLOCK_SIZE_ALIGNED + HEADER_PAGE_SIZE) / getpagesize() + 1) * getpagesize())
 
 // SMALL
 # define SMALL_BLOCK_SIZE 2048
 # define SMALL_BLOCK_SIZE_ALIGNED ALIGN(SMALL_BLOCK_SIZE + sizeof(t_block))
-# define SMALL_PAGE_SIZE ((MIN_PAGE_BLOCKS * SMALL_BLOCK_SIZE_ALIGNED + getpagesize() - 1) & ~(getpagesize() - 1))
-
+# define SMALL_PAGE_SIZE (((MIN_PAGE_BLOCKS * SMALL_BLOCK_SIZE_ALIGNED + HEADER_PAGE_SIZE) / getpagesize() + 1) * getpagesize())
 
 
 typedef struct s_block {

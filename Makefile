@@ -6,7 +6,7 @@
 #    By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/30 15:23:20 by lucocozz          #+#    #+#              #
-#    Updated: 2023/03/19 18:07:13 by lucocozz         ###   ########.fr        #
+#    Updated: 2023/03/21 20:02:52 by lucocozz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ SRCS =	malloc.c				\
 		calloc.c				\
 		print_memory.c			\
 		show_alloc_mem.c		\
-		show_alloc_mem_hex.c		\
+		show_alloc_mem_hex.c	\
 		show_alloc_mem_freed.c	\
 		show_page_num.c			\
 		libft.c
@@ -90,8 +90,8 @@ fclean: clean
 re: fclean all
 
 test:
-	clang mains/test$(main).c -o test$(main)
-	clang mains/test$(main).c -D LIBFT libft_malloc.so -o test$(main)_libft
+	$(CC) mains/test$(main).c -o test$(main)
+	$(CC) mains/test$(main).c -D LIBFT libft_malloc.so -o test$(main)_libft
 	/usr/bin/time -v ./test$(main)
 	./run.sh /usr/bin/time -v ./test$(main)_libft
 	rm test$(main)

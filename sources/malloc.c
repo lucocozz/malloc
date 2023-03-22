@@ -6,11 +6,10 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:44 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/03/19 19:30:29 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/03/22 16:17:59 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include "../includes/malloc.h"
 
 t_heap g_heap = {
@@ -45,7 +44,6 @@ static t_page	*__alloc_page(size_t size)
 	struct rlimit	limit;
 	t_page			*page = NULL;
 
-	size += sizeof(t_page);
 	getrlimit(RLIMIT_AS, &limit);
 	if (size > limit.rlim_max)
 		return (NULL);
@@ -53,7 +51,7 @@ static t_page	*__alloc_page(size_t size)
 	if (page == MAP_FAILED)
 		return (NULL);
 	page->size = size;
-	page->used_size = sizeof(t_page);
+	page->used_size = HEADER_PAGE_SIZE;
 	page->block_count = 0;
 	page->freed_count = 0;
 	page->blocks = NULL;
@@ -70,7 +68,7 @@ static t_block	*__find_fitting_block(t_page *page, size_t alloc_size)
 	// Create block at start of page if none exists
 	if (page->blocks == NULL) {
 		page->block_count = 1;
-		page->blocks = (void *)page + sizeof(t_page);
+		page->blocks = (void *)page + HEADER_PAGE_SIZE;
 		page->blocks->next = NULL;
 		page->blocks->prev = NULL;
 		return (page->blocks);

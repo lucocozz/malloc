@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:48 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/03/19 20:04:47 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/03/21 21:06:50 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ static void	__block_defragmentation(t_page *page, t_block *block)
 
 static t_binding	*__get_binder(t_page *page)
 {
-	if (page->size == TINY_PAGE_SIZE + sizeof(t_page))
+	if (page->size == TINY_PAGE_SIZE)
 		return (&g_heap.tiny);
-	else if (page->size == SMALL_PAGE_SIZE + sizeof(t_page))
+	else if (page->size == SMALL_PAGE_SIZE)
 		return (&g_heap.small);
 	else
 		return (&g_heap.large);
@@ -73,7 +73,8 @@ static void	__free_page(t_page *page)
 	binder->count--;
 	if (binder->pages == page)
 		binder->pages = NULL;
-	munmap(page, page->size);
+	if (munmap(page, page->size) == -1)
+		ft_putstr("free(): munmap error\n");
 }
 
 void	free(void *ptr)
