@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:44 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/03/22 21:22:40 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/03/23 01:06:34 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,16 @@ static t_block	*__find_fitting_block(t_page *page, size_t block_size)
 		page->blocks = PAGE_HEADER_SHIFT(page);
 		page->blocks->next = NULL;
 		page->blocks->prev = NULL;
+		page->used_size += block_size;
 		return (page->blocks);
 	}
 
 	// Search for a free block
 	for (uint i = 0; i < page->block_count; i++) {
-		if (block->allocated == false && block_size <= block->size)
+		if (block->allocated == false && block_size <= block->size) {
+			page->freed_count--;
 			return (block);
+		}
 		last_block = block;
 		block = block->next;
 	}
@@ -88,6 +91,7 @@ static t_block	*__find_fitting_block(t_page *page, size_t block_size)
 		block->next = NULL;
 		block->prev = last_block;
 		last_block->next = block;
+		page->used_size += block_size;
 		page->block_count++;
 		return (block);
 	}
@@ -125,10 +129,10 @@ static t_index	__find_first_fit(t_binding *binder, size_t block_size)
 static int	__block_fragmentation(t_block *block)
 {
 	t_page	*parent = block->parent;
-	t_block	*next_block = (void *)block + block->size;
+	t_block	*next_block = BLOCK_SHIFT(block, block->size);
 
 	if (block->next != NULL && block->next != next_block &&
-		(size_t)(next_block - block->next) >= sizeof(t_block) + ALIGNMENT) // doesn't fragment if space is too small
+		(size_t)(next_block - block->next) >= BLOCK_SIZE(ALIGNMENT)) // doesn't fragment if space is too small
 	{
 		next_block->next = block->next;
 		block->next->prev = next_block;
@@ -154,7 +158,6 @@ static void	*__do_alloc(t_binding *binder, size_t block_size)
 	index.block->allocated = true;
 	index.block->size = block_size;
 	index.block->parent = index.page;
-	index.page->used_size += index.block->size;
 	__block_fragmentation(index.block);
 	return (BLOCK_HEADER_SHIFT(index.block));
 }

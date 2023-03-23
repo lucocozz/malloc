@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 15:28:58 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/03/22 21:19:41 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/03/22 21:40:17 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@
 # include <sys/types.h>
 # include "libft.h"
 
-# define MAP_UNINITIALIZED 0x4000000
-
 # define CANARY "lucocozz_malloc"
 # define CANARY_SIZE 16
 # define ALIGNMENT 8
@@ -31,11 +29,13 @@
 
 # define BLOCK_SIZE(size) ALIGN(size + sizeof(t_block))
 
+// BLOCK
 # define HEADER_BLOCK_SIZE sizeof(t_block)
 # define BLOCK_HEADER_SHIFT(block) ((void*)block + sizeof(t_block))
 # define BLOCK_HEADER_SHIFT_BACK(ptr) ((void*)ptr - sizeof(t_block))
 # define BLOCK_SHIFT(block, size) ((void*)block + size)
 
+// PAGE
 # define HEADER_PAGE_SIZE sizeof(t_page)
 # define PAGE_HEADER_SHIFT(page) ((void*)page + sizeof(t_page))
 # define PAGE_HEADER_SHIFT_BACK(ptr) ((void*)ptr - sizeof(t_page))

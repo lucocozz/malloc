@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 22:09:48 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/03/21 21:08:36 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/03/23 01:07:33 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,8 +118,8 @@ static void	__check_fragmentation(void)
 	ft_putstr("\n\nTEST 6: check block fragmentation\n");
 	ft_putstr("--------------------------------------\n");
 
-	void	*ptr1 = malloc(64);
-	void	*ptr2 = malloc(256);
+	void	*ptr1 = malloc(32);
+	void	*ptr2 = malloc(128);
 	void	*ptr3 = malloc(16);
 	void	*ptr4;
 
