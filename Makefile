@@ -6,7 +6,7 @@
 #    By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/30 15:23:20 by lucocozz          #+#    #+#              #
-#    Updated: 2023/03/22 21:11:50 by lucocozz         ###   ########.fr        #
+#    Updated: 2023/03/23 03:00:01 by lucocozz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ DEPENDENCIES = $(OBJS:%.o=%.d)
 
 SRCS_DIR = sources
 OBJS_DIR = .objs
-INCLUDES_DIR = includes $(LIBS:%=lib%/includes) $(LIBS:%=lib%)
+INCLUDES_DIR = includes $(LIBS:%=lib%/includes) $(LIBS:%=lib%) /usr/include/valgrind
 
 LIBS =
 
@@ -86,6 +86,7 @@ clean:
 fclean: clean
 	$(RM) $(NAME) $(foreach LIB, $(LIBS), lib$(LIB)/lib$(LIB).a) libft_malloc.so
 	$(RM) test*
+	$(RM) a.out
 
 re: fclean all
 

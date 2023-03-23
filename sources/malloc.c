@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:44 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/03/23 01:06:34 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/03/23 02:04:44 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,7 @@ static int	__block_fragmentation(t_block *block)
 		next_block->size = block->next - next_block;
 		block->next = next_block;
 		parent->block_count++;
+		parent->freed_count++;
 		return (1);
 	}
 	return (0);
@@ -159,6 +160,7 @@ static void	*__do_alloc(t_binding *binder, size_t block_size)
 	index.block->size = block_size;
 	index.block->parent = index.page;
 	__block_fragmentation(index.block);
+	// VALGRIND_MALLOCLIKE_BLOCK(index.block, block_size, 0, 0);
 	return (BLOCK_HEADER_SHIFT(index.block));
 }
 

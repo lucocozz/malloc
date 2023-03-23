@@ -6,6 +6,7 @@
 		"stdio.h": "c",
 		"malloc.h": "c",
 		"stdbool.h": "c",
-		"types.h": "c"
+		"types.h": "c",
+		"valgrind.h": "c"
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 15:28:58 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/03/22 21:40:17 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/03/23 01:47:46 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <pthread.h>
 # include <stdbool.h>
 # include <sys/types.h>
+# include <valgrind/valgrind.h>
 # include "libft.h"
 
 # define CANARY "lucocozz_malloc"

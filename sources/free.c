@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:48 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/03/23 00:52:14 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/03/23 02:04:36 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ static void	__free_page(t_page *page)
 
 	if (munmap(page, page->size) == -1)
 		ft_putstr("free(): munmap error\n");
-	page = NULL;
 }
 
 void	free(void *ptr)
@@ -89,6 +88,8 @@ void	free(void *ptr)
 		return;
 	if (ft_memcmp(block, CANARY, CANARY_SIZE) != 0)
 		return;
+
+	// VALGRIND_FREELIKE_BLOCK(block, 0);
 
 	pthread_mutex_lock(&g_heap_mutex);
 

@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 22:09:48 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/03/23 01:07:33 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/03/23 02:10:44 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ static void	__check_fragmentation(void)
 	free(ptr2);
 
 	show_alloc_mem_freed();
-	ptr4 = malloc(128);
+	ptr4 = malloc(64);
 
 	show_alloc_mem_freed();
 	free(ptr1);
@@ -243,8 +243,6 @@ static void	__realloc_defragmentation(void)
 
 int	main()
 {
-	// ft_putnbr(TINY_PAGE_SIZE); ft_putchar('\n');
-	// ft_putnbr(SMALL_PAGE_SIZE); ft_putchar('\n');
 	__simple_alloc_free();
 	__multiple_allocs();
 	__multiple_size();
