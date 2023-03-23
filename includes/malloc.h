@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 15:28:58 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/03/23 01:47:46 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/03/23 19:18:04 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,12 @@
 # define ALIGN(size) (((size) + (ALIGNMENT - 1)) & ~(ALIGNMENT - 1))
 
 # define BLOCK_SIZE(size) ALIGN(size + sizeof(t_block))
+# define BLOCK_DISTANCE(block1, block2) (size_t)((void*)block2 - (void*)block1)
 
 // BLOCK
 # define HEADER_BLOCK_SIZE sizeof(t_block)
 # define BLOCK_HEADER_SHIFT(block) ((void*)block + sizeof(t_block))
-# define BLOCK_HEADER_SHIFT_BACK(ptr) ((void*)ptr - sizeof(t_block))
+# define BLOCK_HEADER_SHIFT_BACK(ptr) ((t_block*)((void*)ptr - sizeof(t_block)))
 # define BLOCK_SHIFT(block, size) ((void*)block + size)
 
 // PAGE

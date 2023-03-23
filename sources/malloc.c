@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:44 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/03/23 02:04:44 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/03/23 18:25:38 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static t_block	*__find_fitting_block(t_page *page, size_t block_size)
 		return (page->blocks);
 	}
 
-	// Search for a free block
+	// Search for a freed block
 	for (uint i = 0; i < page->block_count; i++) {
 		if (block->allocated == false && block_size <= block->size) {
 			page->freed_count--;
@@ -131,8 +131,7 @@ static int	__block_fragmentation(t_block *block)
 	t_page	*parent = block->parent;
 	t_block	*next_block = BLOCK_SHIFT(block, block->size);
 
-	if (block->next != NULL && block->next != next_block &&
-		(size_t)(next_block - block->next) >= BLOCK_SIZE(ALIGNMENT)) // doesn't fragment if space is too small
+	if (ft_distance(block->next, next_block) >= BLOCK_SIZE(ALIGNMENT)) // doesn't fragment if space is too small
 	{
 		next_block->next = block->next;
 		block->next->prev = next_block;
@@ -160,7 +159,6 @@ static void	*__do_alloc(t_binding *binder, size_t block_size)
 	index.block->size = block_size;
 	index.block->parent = index.page;
 	__block_fragmentation(index.block);
-	// VALGRIND_MALLOCLIKE_BLOCK(index.block, block_size, 0, 0);
 	return (BLOCK_HEADER_SHIFT(index.block));
 }
 

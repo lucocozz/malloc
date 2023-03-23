@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:41 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/03/23 02:56:50 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/03/23 19:39:52 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int __block_fragmentation(t_block *block, size_t size)
 	t_block	*fragment;
 	t_page	*page = block->parent;
 
-	if (block->size > BLOCK_SIZE(ALIGNMENT))
+	if (ft_distance(block, block->next) - size >= BLOCK_SIZE(ALIGNMENT))
 	{
 		if (block->next != NULL)
 		{
@@ -90,35 +90,38 @@ void	*realloc(void *ptr, size_t size)
 			free(ptr);
 		return (NULL);
 	}
+	
 	if (ptr == NULL)
 		return (malloc(size));
 
-	pthread_mutex_lock(&g_heap_mutex);
 	t_block	*block = BLOCK_HEADER_SHIFT_BACK(ptr);
 
-	if (ft_memcmp(block, CANARY, CANARY_SIZE) != 0) {
-		pthread_mutex_unlock(&g_heap_mutex);
-		return (NULL);
-	}
-
-	int	fragged = __check_defragmentation(block, BLOCK_SIZE(size));
+	pthread_mutex_lock(&g_heap_mutex);
+	int is_valide = ft_memcmp(block, CANARY, CANARY_SIZE);
 	pthread_mutex_unlock(&g_heap_mutex);
+	
+	if (is_valide != 0)
+		return (NULL);
 
-	if (fragged == true)
+	pthread_mutex_lock(&g_heap_mutex);
+	int	is_fragmented = __check_defragmentation(block, BLOCK_SIZE(size));
+	pthread_mutex_unlock(&g_heap_mutex);
+	
+	if (is_fragmented == true)
 		return (ptr);
 
-	t_block	*new = malloc(size);
+	void *new = malloc(size);
 	if (new == NULL)
 		return (NULL);
 
+	size_t copy_size = block->size - sizeof(t_block);
+	if (BLOCK_HEADER_SHIFT_BACK(new)->size < block->size)
+		copy_size = size;
+
 	pthread_mutex_lock(&g_heap_mutex);
-	if (block != NULL) {
-		if (BLOCK_SIZE(size) < block->size)
-			ft_memcpy(new, ptr, size);
-		else
-			ft_memcpy(new, ptr, block->size - sizeof(t_block));
-	}
+	ft_memcpy(new, ptr, copy_size);
 	pthread_mutex_unlock(&g_heap_mutex);
+
 	free(ptr);
 	return (new);
 }

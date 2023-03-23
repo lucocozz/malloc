@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 21:53:12 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/02/10 16:51:47 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/03/23 18:17:01 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@ void	ft_print_address(void *ptr);
 void	ft_bzero(void *mem, size_t n);
 void	*ft_memcpy(void *dest, void const *src, size_t n);
 int		ft_memcmp(const void *ptr1, const void *ptr2, size_t n);
+size_t	ft_distance(void *ptr1, void *ptr2);
 
 #endif
