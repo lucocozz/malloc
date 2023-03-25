@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 18:33:54 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/03/23 20:07:40 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/03/24 01:58:52 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,11 +140,9 @@ int ft_memcmp(const void *ptr1, const void *ptr2, size_t n)
     return (0);
 }
 
-size_t	ft_distance(void *ptr1, void *ptr2)
+long	ft_distance(void *ptr1, void *ptr2)
 {
 	if (ptr1 == NULL || ptr2 == NULL)
 		return (0);
-	if (ptr2 > ptr1)
-		return (ptr2 - ptr1);
-	return (ptr1 - ptr2);
+	return (ptr2 - ptr1);
 }

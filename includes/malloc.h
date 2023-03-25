@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 15:28:58 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/03/23 19:18:04 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/03/25 17:43:32 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 # include <pthread.h>
 # include <stdbool.h>
 # include <sys/types.h>
-# include <valgrind/valgrind.h>
 # include "libft.h"
 
 # define CANARY "lucocozz_malloc"
@@ -29,7 +28,6 @@
 # define ALIGN(size) (((size) + (ALIGNMENT - 1)) & ~(ALIGNMENT - 1))
 
 # define BLOCK_SIZE(size) ALIGN(size + sizeof(t_block))
-# define BLOCK_DISTANCE(block1, block2) (size_t)((void*)block2 - (void*)block1)
 
 // BLOCK
 # define HEADER_BLOCK_SIZE sizeof(t_block)
@@ -48,16 +46,15 @@
 // TINY
 # define TINY_BLOCK_SIZE_MAX 256
 # define TINY_BLOCK_SIZE BLOCK_SIZE(TINY_BLOCK_SIZE_MAX)
-# define TINY_PAGE_SIZE (((MIN_PAGE_BLOCKS * TINY_BLOCK_SIZE_MAX + HEADER_PAGE_SIZE) / getpagesize() + 1) * getpagesize())
+# define TINY_PAGE_SIZE (((MIN_PAGE_BLOCKS * TINY_BLOCK_SIZE + HEADER_PAGE_SIZE) / getpagesize() + 1) * getpagesize())
 
 // SMALL
 # define SMALL_BLOCK_SIZE_MAX 2048
 # define SMALL_BLOCK_SIZE BLOCK_SIZE(SMALL_BLOCK_SIZE_MAX)
-# define SMALL_PAGE_SIZE (((MIN_PAGE_BLOCKS * SMALL_BLOCK_SIZE_MAX + HEADER_PAGE_SIZE) / getpagesize() + 1) * getpagesize())
+# define SMALL_PAGE_SIZE (((MIN_PAGE_BLOCKS * SMALL_BLOCK_SIZE + HEADER_PAGE_SIZE) / getpagesize() + 1) * getpagesize())
 
 // LARGE
 # define LARGE_PAGE_SIZE(size) (((BLOCK_SIZE(size) + HEADER_PAGE_SIZE) / getpagesize() + 1) * getpagesize())
-
 
 
 typedef struct s_block {

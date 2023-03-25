@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:44 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/03/23 18:25:38 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/03/25 17:36:57 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static size_t	__page_size_from_block_size(size_t block_size)
 static t_page	*__alloc_page(size_t size)
 {
 	struct rlimit	limit;
-	t_page			*page = NULL;
+	t_page			*page;
 
 	getrlimit(RLIMIT_AS, &limit);
 	if (size > limit.rlim_max)
@@ -50,13 +50,9 @@ static t_page	*__alloc_page(size_t size)
 	page = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
 	if (page == MAP_FAILED)
 		return (NULL);
+	ft_bzero(page, sizeof(t_page));
 	page->size = size;
 	page->used_size = HEADER_PAGE_SIZE;
-	page->block_count = 0;
-	page->freed_count = 0;
-	page->blocks = NULL;
-	page->next = NULL;
-	page->prev = NULL;
 	return (page);
 }
 
@@ -131,7 +127,7 @@ static int	__block_fragmentation(t_block *block)
 	t_page	*parent = block->parent;
 	t_block	*next_block = BLOCK_SHIFT(block, block->size);
 
-	if (ft_distance(block->next, next_block) >= BLOCK_SIZE(ALIGNMENT)) // doesn't fragment if space is too small
+	if (ft_distance(block->next, next_block) >= (long)BLOCK_SIZE(ALIGNMENT))
 	{
 		next_block->next = block->next;
 		block->next->prev = next_block;

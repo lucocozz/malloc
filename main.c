@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 22:09:48 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/03/23 02:10:44 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/03/23 22:12:14 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,5 +253,7 @@ int	main()
 	__test_realloc();
 	__realloc_defragmentation();
 	// __thread_safe_test();
+	ft_putnbr(TINY_PAGE_SIZE / getpagesize()); ft_putchar('\n');
+	ft_putnbr(SMALL_PAGE_SIZE / getpagesize()); ft_putchar('\n');
 	return (0);
 }

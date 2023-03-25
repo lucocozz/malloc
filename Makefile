@@ -6,7 +6,7 @@
 #    By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/30 15:23:20 by lucocozz          #+#    #+#              #
-#    Updated: 2023/03/23 15:18:16 by lucocozz         ###   ########.fr        #
+#    Updated: 2023/03/24 02:17:48 by lucocozz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ DEPENDENCIES = $(OBJS:%.o=%.d)
 
 SRCS_DIR = sources
 OBJS_DIR = .objs
-INCLUDES_DIR = includes $(LIBS:%=lib%/includes) $(LIBS:%=lib%) /usr/include/valgrind
+INCLUDES_DIR = includes $(LIBS:%=lib%/includes) $(LIBS:%=lib%)
 
 LIBS =
 
@@ -42,7 +42,7 @@ RM = rm -f
 MKDIR = mkdir -p
 DEBUG = off
 
-CFLAGS = -MMD -Wall -Wextra -Werror -std=gnu99 -fPIC
+CFLAGS = -MMD -Wall -Wextra -Werror -fPIC
 CXXFLAGS = $(INCLUDES_DIR:%=-I %)
 ifeq ($(DEBUG), on)
 	CXXFLAGS += -g3
