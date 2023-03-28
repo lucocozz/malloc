@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:44 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/03/25 17:36:57 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/03/26 18:03:37 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static t_page	*__alloc_page(size_t size)
 		return (NULL);
 	ft_bzero(page, sizeof(t_page));
 	page->size = size;
-	page->used_size = HEADER_PAGE_SIZE;
+	page->used_size = sizeof(t_page);
 	return (page);
 }
 

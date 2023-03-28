@@ -6,7 +6,7 @@
 #    By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/30 15:23:20 by lucocozz          #+#    #+#              #
-#    Updated: 2023/03/24 02:17:48 by lucocozz         ###   ########.fr        #
+#    Updated: 2023/03/28 15:37:05 by lucocozz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,12 +32,12 @@ DEPENDENCIES = $(OBJS:%.o=%.d)
 
 SRCS_DIR = sources
 OBJS_DIR = .objs
-INCLUDES_DIR = includes $(LIBS:%=lib%/includes) $(LIBS:%=lib%)
+INCLUDES_DIR = ./includes $(LIBS:%=lib%/includes) $(LIBS:%=lib%)
 
 LIBS =
 
 MAKE = make
-CC = clang
+CC = gcc
 RM = rm -f
 MKDIR = mkdir -p
 DEBUG = off
@@ -54,7 +54,7 @@ vpath %.c	$(addprefix $(SRCS_DIR), /.)
 all:
 	$(foreach LIB, ${LIBS}, ${MAKE} -C lib${LIB} ;)
 	$(MAKE) $(NAME)
-	$(CC) $(CFLAGS) $(CXXFLAGS) $(LDFLAGS) -lpthread libft_malloc.so -o tests main.c
+	$(CC) $(CFLAGS) $(CXXFLAGS) $(LDFLAGS) -lpthread -L. -lft_malloc_$(HOSTTYPE) -o tests main.c
 	mv tests.d .objs/
 
 scan:

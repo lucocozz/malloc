@@ -7,6 +7,8 @@
 		"malloc.h": "c",
 		"stdbool.h": "c",
 		"types.h": "c",
-		"valgrind.h": "c"
+		"valgrind.h": "c",
+		"mman.h": "c",
+		"libft.h": "c"
 	}
 }
