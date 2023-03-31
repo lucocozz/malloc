@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 22:09:48 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/03/28 15:40:07 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/03/28 16:17:07 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,7 +193,7 @@ static void	__realloc_defragmentation(void)
 	if (ptr == ptr2)
 		ft_putstr("address is equal\n");
 
-	ptr = realloc(ptr2, 32);
+	ptr2 = realloc(ptr, 32);
 	show_alloc_mem_freed();
 
 	if (ptr == ptr2)
