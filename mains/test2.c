@@ -17,8 +17,5 @@ int main(void)
         free(addr);
         i++; 
     }
-    #ifdef LIBFT
-        show_page_num();
-    #endif
     return (0);
 }

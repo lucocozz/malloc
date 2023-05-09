@@ -25,8 +25,5 @@ int main()
     addr3[127*M] = 42;
     print(addr3);
     free(addr3);
-    #ifdef LIBFT
-        show_page_num();
-    #endif
     return (0);
 }

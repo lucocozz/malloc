@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:48 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/03/23 20:18:31 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/05/09 18:45:35 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,17 +66,20 @@ static void	__free_page(t_page *page)
 {
 	t_binding	*binder = __get_binder(page);
 
-	binder->count--;
-	if (binder->pages == page)
-		binder->pages = page->next;
+	if (binder->count > 1)
+	{
+		binder->count--;
+		if (binder->pages == page)
+			binder->pages = page->next;
 	
-	if (page->prev != NULL)
-		page->prev->next = page->next;
-	if (page->next != NULL)
-		page->next->prev = page->prev;
+		if (page->prev != NULL)
+			page->prev->next = page->next;
+		if (page->next != NULL)
+			page->next->prev = page->prev;
 
-	if (munmap(page, page->size) == -1)
-		ft_putstr("free(): munmap error\n");
+		if (munmap(page, page->size) == -1)
+			ft_putstr("free(): munmap error\n");
+	}
 }
 
 void	free(void *ptr)

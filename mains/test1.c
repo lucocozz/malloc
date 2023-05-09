@@ -16,8 +16,5 @@ int      main(void)
         addr[0] = 42;
         i++;
     }
-    #ifdef LIBFT
-        show_page_num();
-    #endif
     return (0);
 }

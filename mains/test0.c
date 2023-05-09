@@ -14,8 +14,5 @@ int      main(void)
     {
         i++;
     }
-    #ifdef LIBFT
-        show_page_num();
-    #endif
     return (0); 
 }
