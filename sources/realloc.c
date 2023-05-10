@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:41 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/03/23 19:39:52 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/05/10 21:53:58 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,12 +114,8 @@ void	*realloc(void *ptr, size_t size)
 	if (new == NULL)
 		return (NULL);
 
-	size_t copy_size = block->size - sizeof(t_block);
-	if (BLOCK_HEADER_SHIFT_BACK(new)->size < block->size)
-		copy_size = size;
-
 	pthread_mutex_lock(&g_heap_mutex);
-	ft_memcpy(new, ptr, copy_size);
+	ft_strcpy(new, ptr);
 	pthread_mutex_unlock(&g_heap_mutex);
 
 	free(ptr);

@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 21:53:12 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/03/24 01:59:01 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/05/10 21:53:09 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,6 @@ void	ft_bzero(void *mem, size_t n);
 void	*ft_memcpy(void *dest, void const *src, size_t n);
 int		ft_memcmp(const void *ptr1, const void *ptr2, size_t n);
 long	ft_distance(void *ptr1, void *ptr2);
+char	*ft_strcpy(char *dest, char *src);
 
 #endif
