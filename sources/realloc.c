@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:41 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/05/10 21:53:58 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/05/10 21:57:28 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ static int __block_fragmentation(t_block *block, size_t size)
 			fragment->size = block->size - size;
 			fragment->next = block->next;
 			fragment->prev = block;
-			ft_memcpy(fragment->canary, CANARY, CANARY_SIZE);
 			block->next = fragment;
 			page->block_count++;
 			page->freed_count++;
@@ -95,13 +94,6 @@ void	*realloc(void *ptr, size_t size)
 		return (malloc(size));
 
 	t_block	*block = BLOCK_HEADER_SHIFT_BACK(ptr);
-
-	pthread_mutex_lock(&g_heap_mutex);
-	int is_valide = ft_memcmp(block, CANARY, CANARY_SIZE);
-	pthread_mutex_unlock(&g_heap_mutex);
-	
-	if (is_valide != 0)
-		return (NULL);
 
 	pthread_mutex_lock(&g_heap_mutex);
 	int	is_fragmented = __check_defragmentation(block, BLOCK_SIZE(size));

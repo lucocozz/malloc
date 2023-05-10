@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:48 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/05/09 18:45:35 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/05/10 21:56:34 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,6 @@ void	free(void *ptr)
 	t_block	*block = BLOCK_HEADER_SHIFT_BACK(ptr);
 
 	if (ptr == NULL)
-		return;
-	if (ft_memcmp(block, CANARY, CANARY_SIZE) != 0)
 		return;
 
 	pthread_mutex_lock(&g_heap_mutex);
