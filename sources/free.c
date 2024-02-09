@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:48 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/05/09 18:45:35 by lucocozz         ###   ########.fr       */
+/*   Updated: 2024/02/09 18:04:47 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	free(void *ptr)
 
 	if (ptr == NULL)
 		return;
-	if (ft_memcmp(block, CANARY, CANARY_SIZE) != 0)
+	if (block->magic != MAGIC_NUMBER_BLOCK)
 		return;
 
 	pthread_mutex_lock(&g_heap_mutex);

@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:35:44 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/03/26 18:03:37 by lucocozz         ###   ########.fr       */
+/*   Updated: 2024/02/09 18:07:26 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ static void	*__do_alloc(t_binding *binder, size_t block_size)
 	index = __find_first_fit(binder, block_size);
 	if (index.page == NULL)
 		return (NULL);
-	ft_memcpy(index.block->canary, CANARY, CANARY_SIZE);
+	index.block->magic = MAGIC_NUMBER_BLOCK;
 	index.block->allocated = true;
 	index.block->size = block_size;
 	index.block->parent = index.page;
